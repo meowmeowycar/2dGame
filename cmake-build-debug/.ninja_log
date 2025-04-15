@@ -111,3 +111,5 @@
 75266	77545	7664377981192370	_deps/sfml-build/lib/libsfml-graphics-s-d.a	4f686dbbd792aea2
 73032	78338	7664377958845757	CMakeFiles/main.dir/src/main.cpp.obj	48cd33e212ecaf0
 78338	87524	7664378011898339	bin/main.exe	34692acfed48e3b4
+116	2894	7664385920032556	CMakeFiles/main.dir/src/main.cpp.obj	48cd33e212ecaf0
+2895	5316	7664385947813685	bin/main.exe	34692acfed48e3b4
