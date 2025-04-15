@@ -1,0 +1,3 @@
+C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-subbuild/CMakeFiles/vorbis-populate.dir
+C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-subbuild/CMakeFiles/rebuild_cache.dir

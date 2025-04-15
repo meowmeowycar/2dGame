@@ -1,0 +1,21 @@
+# ninja log v6
+2	89	7664374949790323	freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-mkdir	ccf9bf642f5e764d
+2	89	7664374949790323	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-mkdir	ccf9bf642f5e764d
+89	8684	7664375035736995	freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-download	b81eae2fbbcedf20
+89	8684	7664375035736995	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-download	b81eae2fbbcedf20
+8685	9025	7664375035806783	freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-update	ec801742809eb947
+8685	9025	7664375035806783	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-update	ec801742809eb947
+9025	9108	7664375039970717	freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-patch	81242d366e93335f
+9025	9108	7664375039970717	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-patch	81242d366e93335f
+9108	9194	7664375040828550	freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-configure	74cdf691ceab6064
+9108	9194	7664375040828550	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-configure	74cdf691ceab6064
+9194	9272	7664375041626473	freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-build	ea173bb9a939257
+9194	9272	7664375041626473	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-build	ea173bb9a939257
+9272	9353	7664375042433810	freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-install	ef1e36e432e010f1
+9272	9353	7664375042433810	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-install	ef1e36e432e010f1
+9353	9433	7664375043211729	freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-test	a1d7ef11396012e4
+9353	9433	7664375043211729	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-test	a1d7ef11396012e4
+9434	9543	7664375044333813	CMakeFiles/freetype-populate-complete	ba0f6e5517f41f0a
+9434	9543	7664375044333813	freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-done	ba0f6e5517f41f0a
+9434	9543	7664375044333813	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/CMakeFiles/freetype-populate-complete	ba0f6e5517f41f0a
+9434	9543	7664375044333813	C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/freetype-subbuild/freetype-populate-prefix/src/freetype-populate-stamp/freetype-populate-done	ba0f6e5517f41f0a
