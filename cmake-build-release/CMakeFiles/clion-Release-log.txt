@@ -1,7 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2024.3.5\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -S C:\Users\agnie\Documents\GitHub\2dGame -B C:\Users\agnie\Documents\GitHub\2dGame\cmake-build-release
--- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
--- Configuring libogg 1.3.5
--- Configuring vorbis 1.3.7
--- Configuring done (29.5s)
--- Generating done (1.3s)
--- Build files have been written to: C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release
