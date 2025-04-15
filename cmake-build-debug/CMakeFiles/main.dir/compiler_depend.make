@@ -284,7 +284,8 @@ CMakeFiles/main.dir/src/events.cpp.obj: C:/Users/agnie/Documents/GitHub/2dGame/s
   _deps/sfml-src/include/SFML/Window/WindowBase.hpp \
   _deps/sfml-src/include/SFML/Window/WindowBase.inl \
   _deps/sfml-src/include/SFML/Window/WindowEnums.hpp \
-  _deps/sfml-src/include/SFML/Window/WindowHandle.hpp
+  _deps/sfml-src/include/SFML/Window/WindowHandle.hpp \
+  C:/Users/agnie/Documents/GitHub/2dGame/src/events.h
 
 CMakeFiles/main.dir/src/main.cpp.obj: C:/Users/agnie/Documents/GitHub/2dGame/src/main.cpp \
   C:/Program\ Files/JetBrains/CLion\ 2024.3.5/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/array \

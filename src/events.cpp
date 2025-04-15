@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "events.h"
 
 void processEvents(sf::Window& window) {
     while (const std::optional event = window.pollEvent())

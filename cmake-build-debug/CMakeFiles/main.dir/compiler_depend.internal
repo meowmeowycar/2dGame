@@ -286,6 +286,7 @@ CMakeFiles/main.dir/src/events.cpp.obj
  C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-debug/_deps/sfml-src/include/SFML/Window/WindowBase.inl
  C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-debug/_deps/sfml-src/include/SFML/Window/WindowEnums.hpp
  C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-debug/_deps/sfml-src/include/SFML/Window/WindowHandle.hpp
+ C:/Users/agnie/Documents/GitHub/2dGame/src/events.h
 
 CMakeFiles/main.dir/src/main.cpp.obj
  C:/Users/agnie/Documents/GitHub/2dGame/src/main.cpp

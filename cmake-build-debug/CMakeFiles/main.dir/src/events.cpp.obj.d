@@ -282,4 +282,5 @@ CMakeFiles/main.dir/src/events.cpp.obj: \
  C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-debug/_deps/sfml-src/include/SFML/System/FileInputStream.hpp \
  C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-debug/_deps/sfml-src/include/SFML/System/InputStream.hpp \
  C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-debug/_deps/sfml-src/include/SFML/System/MemoryInputStream.hpp \
- C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-debug/_deps/sfml-src/include/SFML/System/Sleep.hpp
+ C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-debug/_deps/sfml-src/include/SFML/System/Sleep.hpp \
+ C:\Users\agnie\Documents\GitHub\2dGame\src\events.h
