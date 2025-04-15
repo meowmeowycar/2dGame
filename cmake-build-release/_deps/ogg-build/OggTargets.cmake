@@ -50,14 +50,14 @@ unset(_cmake_expected_targets)
 add_library(Ogg::ogg STATIC IMPORTED)
 
 set_target_properties(Ogg::ogg PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/ogg-src/include;C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/ogg-build/include"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/ogg-src/include;C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/ogg-build/include"
 )
 
 # Import target "Ogg::ogg" for configuration "Release"
 set_property(TARGET Ogg::ogg APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(Ogg::ogg PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
-  IMPORTED_LOCATION_RELEASE "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/sfml-build/lib/libogg.a"
+  IMPORTED_LOCATION_RELEASE "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/sfml-build/lib/libogg.a"
   )
 
 # This file does not depend on other imported targets which have

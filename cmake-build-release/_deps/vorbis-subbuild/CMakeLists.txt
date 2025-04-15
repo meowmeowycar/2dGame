@@ -27,9 +27,9 @@ set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
 
 include(ExternalProject)
 ExternalProject_Add(vorbis-populate
-                     "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/xiph/vorbis.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "v1.3.7" "GIT_SHALLOW" "ON" "PATCH_COMMAND" "D:/CLion 2024.3.4/bin/cmake/win/x64/bin/cmake.exe" "-DVORBIS_DIR=C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-src" "-P" "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/sfml-src/tools/vorbis/PatchVorbis.cmake"
-                    SOURCE_DIR          "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-src"
-                    BINARY_DIR          "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-build"
+                     "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/xiph/vorbis.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "v1.3.7" "GIT_SHALLOW" "ON" "PATCH_COMMAND" "C:/Program Files/JetBrains/CLion 2024.3.5/bin/cmake/win/x64/bin/cmake.exe" "-DVORBIS_DIR=C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-src" "-P" "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/sfml-src/tools/vorbis/PatchVorbis.cmake"
+                    SOURCE_DIR          "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-src"
+                    BINARY_DIR          "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""
