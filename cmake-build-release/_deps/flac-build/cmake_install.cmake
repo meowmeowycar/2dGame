@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-src
+# Install script for directory: C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,14 +34,14 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "D:/CLion 2024.3.4/bin/mingw/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2024.3.5/bin/mingw/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/FLAC/targets.cmake")
     file(DIFFERENT _cmake_export_file_changed FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/FLAC/targets.cmake"
-         "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/CMakeFiles/Export/baf7b64a9c1b56d368d1c4c52c93ff8a/targets.cmake")
+         "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/CMakeFiles/Export/baf7b64a9c1b56d368d1c4c52c93ff8a/targets.cmake")
     if(_cmake_export_file_changed)
       file(GLOB _cmake_old_config_files "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/FLAC/targets-*.cmake")
       if(_cmake_old_config_files)
@@ -54,30 +54,30 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
     unset(_cmake_export_file_changed)
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FLAC" TYPE FILE FILES "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/CMakeFiles/Export/baf7b64a9c1b56d368d1c4c52c93ff8a/targets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FLAC" TYPE FILE FILES "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/CMakeFiles/Export/baf7b64a9c1b56d368d1c4c52c93ff8a/targets.cmake")
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FLAC" TYPE FILE FILES "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/CMakeFiles/Export/baf7b64a9c1b56d368d1c4c52c93ff8a/targets-release.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FLAC" TYPE FILE FILES "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/CMakeFiles/Export/baf7b64a9c1b56d368d1c4c52c93ff8a/targets-release.cmake")
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FLAC" TYPE FILE FILES
-    "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/flac-config.cmake"
-    "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/flac-config-version.cmake"
+    "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/flac-config.cmake"
+    "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/flac-config-version.cmake"
     )
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/FLAC" TYPE FILE FILES
-    "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/flac-config.cmake"
-    "C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/flac-config-version.cmake"
+    "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/flac-config.cmake"
+    "C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/flac-config-version.cmake"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/src/cmake_install.cmake")
-  include("C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/microbench/cmake_install.cmake")
+  include("C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/src/cmake_install.cmake")
+  include("C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/flac-build/microbench/cmake_install.cmake")
 
 endif()
 

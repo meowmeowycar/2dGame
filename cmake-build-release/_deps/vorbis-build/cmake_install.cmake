@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-src
+# Install script for directory: C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,12 +34,12 @@ endif()
 
 # Set path to fallback-tool for dependency-resolution.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "D:/CLion 2024.3.4/bin/mingw/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2024.3.5/bin/mingw/bin/objdump.exe")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Users/filip/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-build/lib/cmake_install.cmake")
+  include("C:/Users/agnie/Documents/GitHub/2dGame/cmake-build-release/_deps/vorbis-build/lib/cmake_install.cmake")
 
 endif()
 

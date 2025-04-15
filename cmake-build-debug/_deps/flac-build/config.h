@@ -44,13 +44,13 @@
 #endif
 
 /* Define to the commit date of the current git HEAD */
-/* #undef GIT_COMMIT_DATE */
+#define GIT_COMMIT_DATE "20230623"
 
 /* Define to the short hash of the current git HEAD */
-/* #undef GIT_COMMIT_HASH */
+#define GIT_COMMIT_HASH "28e4f05"
 
 /* Define to the tag of the current git HEAD */
-/* #undef GIT_COMMIT_TAG */
+#define GIT_COMMIT_TAG "1.4.3"
 
 /* Compiler has the __builtin_bswap16 intrinsic */
 #define HAVE_BSWAP16
