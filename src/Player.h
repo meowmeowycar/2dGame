@@ -5,5 +5,5 @@ class Player {
 public:
     Player();
 
-    void show(sf::RenderWindow& window) const;
+    bool show(sf::RenderWindow& window) const;
 };

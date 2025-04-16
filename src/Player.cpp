@@ -6,9 +6,12 @@
 Player::Player() {
 }
 
-void Player::show(sf::RenderWindow& window) const {
+bool Player::show(sf::RenderWindow& window) const {
   sf::Texture texture;
-  Obrazek("../../Media/Ludzik.png", texture);
+  if (!Obrazek("../../Media/Ludzik.png", texture)) {
+    return false;
+  }
   sf::Sprite sprite(texture);
   window.draw(sprite);
+  return true;
 }

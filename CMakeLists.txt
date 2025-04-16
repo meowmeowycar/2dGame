@@ -19,7 +19,8 @@ add_executable(main
         src/events.cpp
         src/events.h
         src/Player.cpp
-        src/Player.h)
+        src/Player.h
+        src/configuration.h)
 
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)

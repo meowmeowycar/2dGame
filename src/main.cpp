@@ -1,26 +1,30 @@
 #include <SFML/Graphics.hpp>
 #include "events.h"
-#include "ImageDisplay.h"
 #include "Player.h"
+#include "configuration.h"
 
 int main() {
+    sf::Clock clock;
+    sf::Time time;
+
     Player player;
-    
-    sf::Texture backgroundTexture;
-    if (!Obrazek("../../Media/Ludzik.png", backgroundTexture)) {
-        return -1;
-    }
-    sf::Sprite Spirite(backgroundTexture);
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "Game", sf::State::Fullscreen);
-    window.setFramerateLimit(144);
+
+    auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "Game", sf::State::Fullscreen);
+    window.setFramerateLimit(conf::max_framerate);
 
     while (window.isOpen())
     {
+        time = clock.restart();
+        conf::dt = time.asSeconds();
+
         processEvents(window);
 
         window.clear(sf::Color::Red);
-        //window.draw(Spirite);
-        player.show(window);
+
+        if (!player.show(window)) {
+            return -1;
+        }
+
         window.display();
     }
 }
