@@ -19,6 +19,8 @@ int main() {
 
         processEvents(window);
 
+        player.update(conf::dt);
+
         window.clear(sf::Color::Red);
 
         if (!player.show(window)) {
