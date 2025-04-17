@@ -10,7 +10,9 @@ int main() {
     Player player;
 
     auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "Game", sf::State::Fullscreen);
-    window.setFramerateLimit(conf::max_framerate);
+
+    if (conf::limit_framerate)
+        window.setFramerateLimit(conf::max_framerate);
 
     while (window.isOpen())
     {
