@@ -8,6 +8,11 @@ namespace conf {
     bool const limit_framerate = true;
     int const max_framerate = 144;
     float const dt = 1.0f / max_framerate;
+    bool const show_FPS = true;
+    int const fps_accuracy = 100;
+
+    // fonts
+    sf::Font const arial("../../Media/fonts/arial/arial.ttf");
 
     // Player configuration
     std::string const playerImagePath = "../../Media/Ludzik.png";
