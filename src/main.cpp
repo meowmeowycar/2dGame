@@ -15,7 +15,7 @@ int main() {
     while (window.isOpen())
     {
         time = clock.restart();
-        conf::dt = time.asSeconds();
+        float dt = time.asSeconds();
 
         processEvents(window);
 
