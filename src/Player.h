@@ -5,7 +5,6 @@ class Player {
 private:
     sf::Vector2f position;
     sf::Texture texture;
-    bool isLoaded;
 
 public:
     Player();

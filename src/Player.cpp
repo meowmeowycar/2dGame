@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <SFML/Graphics.hpp>
 #include "ImageDisplay.h"
+#include "configuration.h"
 
 
 Player::Player() : position(0,0){
@@ -8,7 +9,7 @@ Player::Player() : position(0,0){
 
 bool Player::show(sf::RenderWindow& window) const {
   sf::Texture texture;
-  if (!Obrazek("../../Media/Ludzik.png", texture)) {
+  if (!Obrazek(conf::playerImagePath, texture)) {
     return false;
   }
   sf::Sprite sprite(texture);

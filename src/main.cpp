@@ -9,13 +9,15 @@ int main() {
 
     Player player;
 
-    auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "Game", sf::State::Fullscreen);
-    window.setFramerateLimit(conf::max_framerate);
+    auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Fullscreen);
+
+    if (conf::limit_framerate)
+        window.setFramerateLimit(conf::max_framerate);
 
     while (window.isOpen())
     {
         time = clock.restart();
-        conf::dt = time.asSeconds();
+        float actual_dt = time.asSeconds();
 
         processEvents(window);
 
