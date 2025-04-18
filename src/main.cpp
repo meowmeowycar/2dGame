@@ -2,6 +2,7 @@
 #include "events.h"
 #include "Player.h"
 #include "configuration.h"
+#include "FPS.h"
 
 int main() {
     sf::Clock clock;
@@ -23,11 +24,14 @@ int main() {
 
         player.update(conf::dt);
 
-        window.clear(sf::Color::Red);
+        window.clear(sf::Color::White);
 
         if (!player.show(window)) {
             return -1;
         }
+
+        if (conf::show_FPS)
+            FPS::show_fps(window, actual_dt);
 
         window.display();
     }
