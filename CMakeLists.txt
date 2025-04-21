@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(CMakeSFMLProject LANGUAGES CXX)
+project(2dGame LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -20,7 +20,12 @@ add_executable(main
         src/events.h
         src/Player.cpp
         src/Player.h
-        src/configuration.h)
+        src/configuration.h
+        src/functions.cpp
+        src/functions.h
+        src/FPS.cpp
+        src/FPS.h
+)
 
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)
