@@ -12,9 +12,13 @@ namespace conf {
     bool const show_FPS = true;
     int const fps_accuracy = 100;
 
+    // Graphics
+    std::string const backgroundImage = "../../Media/backgrounds/background1.jpg";
+    std::string const playerImage = "../../Media/Ludzik.png";
+
     // fonts
     sf::Font const arial("../../Media/fonts/arial/arial.ttf");
 
     // Player configuration
-    std::string const playerImagePath = "../../Media/Ludzik.png";
+    sf::Vector2f const player_hitbox = {42, 72};
 }
