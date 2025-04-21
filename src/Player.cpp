@@ -4,7 +4,7 @@
 #include "configuration.h"
 
 
-Player::Player() : position(0,0){
+Player::Player() : position(0,0), velocity(0), gravity(980.0f){
 }
 
 bool Player::show(sf::RenderWindow& window) const {
@@ -21,18 +21,21 @@ void Player::move(float x,float y) {
   position.x += x;
   position.y += y;
 }
-void Player::update(const float& dt) {
+void Player::update(float dt) {
 
+  velocity += gravity * dt;
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
     move(200.0f * dt, 0);
   }
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
     move(-200.0f * dt, 0);
   }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
-    move(0, -200.0f * dt);
-  }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
-    move(0, 200.0f * dt);
+
+  position.y += velocity * dt;
+
+  float floorLevel = 1080 - 100;
+
+  if (position.y >= floorLevel) {
+    position.y = floorLevel;
   }
 }
