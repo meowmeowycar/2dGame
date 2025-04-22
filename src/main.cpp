@@ -28,8 +28,12 @@ int main() {
 
     std::vector<Obstacle> obstacles;
     obstacles.push_back(*(new Obstacle(0, 1700, 3000, 2000)));
+    obstacles.push_back(*(new Obstacle(-400, 1800, 3000, 2000)));
 
     if (!obstacles[0].load_texture(conf::wallImage)) {
+        return -1;
+    }
+    if (!obstacles[1].load_texture(conf::wallImage)) {
         return -1;
     }
 
@@ -74,10 +78,9 @@ int main() {
         // Player view ----------------------
 
         player.show(window);
-        player.draw_hitbox(window);
 
+        obstacles[1].show(window);
         obstacles[0].show(window);
-        obstacles[0].draw_hitbox(window);
 
         window.display();
     }

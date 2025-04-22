@@ -7,7 +7,7 @@
 #include <cmath>
 
 
-Player::Player() : position(0,0), velocity(0), gravity(980.0f * 144), hitbox(conf::player_hitbox), health(100){
+Player::Player() : position(0,0), velocity({0, 0}), gravity(980.0f * 144), hitbox(conf::player_hitbox), health(100){
 }
 
 Player::Player(float x, float y) : Player(){
@@ -34,7 +34,11 @@ void Player::show(sf::RenderWindow& window) {
   sf::Sprite player_sprite(player_texture);
   player_sprite.setPosition(position);
   player_sprite.setOrigin({(float) player_texture.getSize().x / 2, (float) player_texture.getSize().y / 2});
+  player_sprite.setScale({1, hitbox.y / conf::player_hitbox.y});
   window.draw(player_sprite);
+
+  if (conf::draw_hitboxes)
+    draw_hitbox(window);
 }
 void Player::move(sf::Vector2f step) {
   position.x += step.x;
@@ -43,58 +47,88 @@ void Player::move(sf::Vector2f step) {
 void Player::update(std::vector<Obstacle>& obstacles, float dt) {
   sf::Vector2f step = {0, 0};
 
-  velocity += gravity * dt * dt;
+  float on_the_floor = false;
 
-  //step.y += velocity * dt;
-
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-    step.x += 1;
-  }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-    step.x -= 1;
-  }
-
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-    bool can_jump = false;
-    for (int i = 0; i < obstacles.size(); i++) {
-      sf::Vector2f distance = {obstacles[i].getPosition().x - position.x, obstacles[i].getPosition().y - position.y};
-      if ((abs(distance.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 2 && distance.y > 0) {
-        can_jump = true;
-        break;
-      }
+  for (int i = 0; i < obstacles.size(); i++) {
+    sf::Vector2f distance = {obstacles[i].getPosition().x - position.x, obstacles[i].getPosition().y - position.y};
+    if ((abs(distance.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 2 && distance.y > 0) {
+      on_the_floor = true;
+      break;
     }
-    if (can_jump)
-      velocity = -500;
+  }
+
+  if (abs(velocity.x) < 0.2 && abs(velocity.y) < 0.2)
+    sliding = false;
+
+  if (on_the_floor && isKeyPressed(sf::Keyboard::Key::LControl)) {
+    sliding = true;
+  }
+
+  if ((!isKeyPressed(sf::Keyboard::Key::A) && !isKeyPressed(sf::Keyboard::Key::D)))
+    sliding = false;
+
+  if (isKeyPressed(sf::Keyboard::Key::W)) {
+    if (on_the_floor) {
+      velocity.y = -500;
+      sliding = false;
+      health -= 10;
+    }
+  }
+  if (sliding) {
+    velocity.x -= sign(velocity.x) * 0.005; // zmiana dlugosci slidu
+
+    if (hitbox.x == conf::player_hitbox.x && hitbox.y == conf::player_hitbox.y) {
+      hitbox = conf::player_sliding_hitbox;
+      position.y += (conf::player_hitbox.y - conf::player_sliding_hitbox.y) / 2;
+    }
+  } else {
+    velocity.x = 0;
+
+    if (isKeyPressed(sf::Keyboard::Key::D)) {
+      if (velocity.x < 1) velocity.x += 1;
+    }
+    if (isKeyPressed(sf::Keyboard::Key::A)) {
+      if (velocity.x > -1) velocity.x -= 1;
+    }
+
+    if (hitbox.x == conf::player_sliding_hitbox.x && hitbox.y == conf::player_sliding_hitbox.y) {
+      hitbox = conf::player_hitbox;
+      position.y -= (conf::player_hitbox.y - conf::player_sliding_hitbox.y) / 2;
+    }
   }
 
   float floorLevel = 1080 - hitbox.y / 2;
 
   if (position.y >= floorLevel) {
-    position.y = floorLevel;
-    velocity = 0;
+    //position.y = floorLevel;
+    //velocity.y = 0;
   }
 
-  step.y = sign(velocity);
+  velocity.y += gravity * dt * dt;
 
-  if (ceil(abs(velocity) * dt)) step.x *= 2 / ceil(abs(velocity) * dt);
+  step.x = velocity.x;
+  step.y = sign(velocity.y);
+
+  if (ceil(abs(velocity.y) * dt)) step.x *= 2 / ceil(abs(velocity.y) * dt);
   else step.x *= 2;
 
 
-  for (int j = 0; j < ceil(abs(velocity) * conf::player_speed * dt); j++) {
+  for (int j = 0; j < ceil(abs(velocity.y) * conf::player_speed * dt); j++) {
     bool collided_x = false;
     bool collided_y = false;
     for (int i = 0; i < obstacles.size(); i++) {
       sf::Vector2f distance = {obstacles[i].getPosition().x - position.x, obstacles[i].getPosition().y - position.y};
       if ((abs(distance.x - step.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
         collided_x = true;
+        velocity.x = 0;
       }
       if ((abs(distance.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
         collided_y = true;
-        velocity = 0;
+        velocity.y = 0;
       }
       if ((abs(distance.x - step.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0 && !collided_x) {
         collided_y = true;
-        velocity = 0;
+        velocity.y = 0;
       }
     }
 

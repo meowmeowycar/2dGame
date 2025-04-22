@@ -1,5 +1,6 @@
 #include "Obstacle.h"
 #include "ImageDisplay.h"
+#include "configuration.h"
 
 Obstacle::Obstacle(float width, float height) : position(0, 0), size({width, height}) {}
 Obstacle::Obstacle(float x, float y, float width, float height) : position(x, y), size(width, height) {}
@@ -28,6 +29,9 @@ void Obstacle::show(sf::RenderWindow& window) {
   obstacle_sprite.setOrigin({size.x / 2, size.y / 2});
   obstacle_sprite.setTextureRect(sf::IntRect({0, 0}, static_cast<sf::Vector2i>(size)));
   window.draw(obstacle_sprite);
+
+  if (conf::draw_hitboxes)
+    draw_hitbox(window);
 }
 
 void Obstacle::draw_hitbox(sf::RenderWindow& window) {
