@@ -25,6 +25,8 @@ add_executable(main
         src/functions.h
         src/FPS.cpp
         src/FPS.h
+        src/Obstacle.cpp
+        src/Obstacle.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)
