@@ -14,6 +14,8 @@ private:
     float gravity;
     float velocity;
 
+    float health;
+
 public:
     Player();
     Player(float x, float y);
@@ -26,4 +28,5 @@ public:
     bool fix_collisions(std::vector<Obstacle>& obstacles, sf::Vector2f step, float dt);
 
     sf::Vector2f getPosition();
+    float getHealth();
 };

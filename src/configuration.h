@@ -15,6 +15,9 @@ namespace conf {
     std::string const backgroundImage = "../../Media/backgrounds/background2.jpg";
     std::string const playerImage = "../../Media/Ludzik.png";
     std::string const wallImage = "../../Media/terrain/wall.jpg";
+    std::string const healthbarImage1 = "../../Media/HUD/healthbar1.png";
+    std::string const healthbarImage2 = "../../Media/HUD/healthbar2.png";
+    std::string const healthbarImage3 = "../../Media/HUD/healthbar3.png";
 
     // fonts
     sf::Font const arial("../../Media/fonts/arial/arial.ttf");
@@ -22,4 +25,8 @@ namespace conf {
     // Player configuration
     sf::Vector2f const player_hitbox = {42, 72};
     float const player_speed = 1;
+
+    // HUD configuration
+    bool const show_hud = true;
+    sf::Vector2f const healthbar_position = {30, 30};
 }

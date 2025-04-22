@@ -2,17 +2,21 @@
 #include "events.h"
 #include "Player.h"
 #include "configuration.h"
-#include "FPS.h"
 #include "ImageDisplay.h"
 #include "Obstacle.h"
+#include "HUD.h"
 
 int main() {
     sf::Clock clock;
     sf::Time time;
 
-    Player player(0, -1000);
+    Player player(-1000, -1000);
 
     if (!player.load_textures()) {
+        return -1;
+    }
+
+    if (!HUD::load_graphics()) {
         return -1;
     }
 
@@ -60,8 +64,8 @@ int main() {
 
         window.draw(background1);
 
-        if (conf::show_FPS)
-            FPS::show_fps(window, actual_dt);
+        if (conf::show_hud)
+            HUD::display_hud(window, actual_dt, player);
 
         //-----------------------------------
 
