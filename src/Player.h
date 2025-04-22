@@ -12,9 +12,11 @@ private:
 
     bool isLoaded;
     float gravity;
-    float velocity;
+    sf::Vector2f velocity;
 
     float health;
+
+    bool sliding;
 
 public:
     Player();
