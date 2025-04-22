@@ -27,6 +27,8 @@ add_executable(main
         src/FPS.h
         src/Obstacle.cpp
         src/Obstacle.h
+        src/HUD.cpp
+        src/HUD.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)
