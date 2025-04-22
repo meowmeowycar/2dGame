@@ -10,7 +10,7 @@ int main() {
     sf::Clock clock;
     sf::Time time;
 
-    Player player;
+    Player player(0, -1000);
 
     if (!player.load_textures()) {
         return -1;
@@ -23,7 +23,7 @@ int main() {
     sf::Sprite background1(background1_textrue);
 
     std::vector<Obstacle> obstacles;
-    obstacles.push_back(*(new Obstacle(0, 1100, 3000, 2000)));
+    obstacles.push_back(*(new Obstacle(0, 1700, 3000, 2000)));
 
     if (!obstacles[0].load_texture(conf::wallImage)) {
         return -1;
@@ -34,8 +34,7 @@ int main() {
     if (conf::limit_framerate)
         window.setFramerateLimit(conf::max_framerate);
 
-
-    sf::View player_view({player.getPosition().x, player.getPosition().y - 300}, conf::window_size_f);
+    sf::View player_view({player.getPosition().x, player.getPosition().y - 200}, conf::window_size_f);
     //window.setView(player_view);
 
     while (window.isOpen())
@@ -49,7 +48,7 @@ int main() {
 
         player.update(obstacles, actual_dt);
 
-        player_view.setCenter({player.getPosition().x, player.getPosition().y - 300});
+        player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
 
         // Display
 

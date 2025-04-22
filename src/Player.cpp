@@ -9,7 +9,7 @@
 Player::Player() : position(0,0), velocity(0), gravity(980.0f), hitbox(conf::player_hitbox){
 }
 
-Player::Player(float x, float y) : position(x, y), hitbox(conf::player_hitbox){
+Player::Player(float x, float y) : position(x, y), gravity(980.0f), hitbox(conf::player_hitbox){
 }
 
 bool Player::load_textures() {
@@ -39,38 +39,58 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
   sf::Vector2f step = {0, 0};
 
   velocity += gravity * dt;
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
+
+  //step.y += velocity * dt;
+
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
     step.x += 1;
   }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
     step.x -= 1;
   }
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
+    bool can_jump = false;
+    for (int i = 0; i < obstacles.size(); i++) {
+      sf::Vector2f distance = {obstacles[i].getPosition().x - position.x, obstacles[i].getPosition().y - position.y};
+      if ((abs(distance.x - step.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 2 && distance.y > 0) {
+        can_jump = true;
+        break;
+      }
+    }
+    if (can_jump)
+      velocity = -500;
+  }
 
-  position.y += velocity * dt;
-
-  float floorLevel = 1080 - 100;
+  float floorLevel = 1080 - hitbox.y / 2;
 
   if (position.y >= floorLevel) {
     position.y = floorLevel;
+    velocity = 0;
   }
+
+  step.y = sign(velocity);
+
   /*
   if (!fix_collisions(obstacles, step, dt)) {
     move(step.x, step.y);
   }
   */
-  for (int j = 0; j < conf::player_speed * dt; j++) {
+  for (int j = 0; j < abs(velocity) * conf::player_speed * dt; j++) {
     bool collided_x = false;
     bool collided_y = false;
     for (int i = 0; i < obstacles.size(); i++) {
       sf::Vector2f distance = {obstacles[i].getPosition().x - position.x, obstacles[i].getPosition().y - position.y};
-      if ((abs(distance.x - sign(step.x)) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
+      if ((abs(distance.x - step.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
         collided_x = true;
+        velocity = 0;
       }
-      if ((abs(distance.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - sign(step.y)) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
+      if ((abs(distance.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
         collided_y = true;
+        velocity = 0;
       }
-      if ((abs(distance.x - sign(step.x)) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - sign(step.y)) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0 && !collided_x) {
+      if ((abs(distance.x - step.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0 && !collided_x) {
         collided_y = true;
+        velocity = 0;
       }
     }
 
