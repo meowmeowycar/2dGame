@@ -113,7 +113,7 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
   else step.x *= 2;
 
 
-  for (int j = 0; j < ceil(abs(velocity.y) * conf::player_speed * dt); j++) {
+  for (int j = 0; j < ceil(abs(velocity.y) * dt); j++) {
     bool collided_x = false;
     bool collided_y = false;
     for (int i = 0; i < obstacles.size(); i++) {
@@ -154,7 +154,7 @@ void Player::draw_hitbox(sf::RenderWindow& window) {
   hitbox_shape.setOutlineThickness(1);
   window.draw(hitbox_shape);
 }
-
+/* NOT USED
 bool Player::fix_collisions(std::vector<Obstacle>& obstacles, sf::Vector2f step, float dt) {
   for (int i = 0; i < obstacles.size(); i++) {
     sf::Vector2f distance = {obstacles[i].getPosition().x - position.x, obstacles[i].getPosition().y - position.y};
@@ -179,4 +179,4 @@ bool Player::fix_collisions(std::vector<Obstacle>& obstacles, sf::Vector2f step,
   }
   return false;
 }
-
+*/

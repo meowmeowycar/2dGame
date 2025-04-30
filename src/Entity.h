@@ -3,23 +3,17 @@
 #include "Obstacle.h"
 #include <vector>
 
-class Player {
-private:
-    sf::Vector2f position;
+class Entity {
+    sf::Texture entity_texture;
+
     sf::Vector2f hitbox;
 
-    sf::Texture player_texture;
-
-    float gravity;
-    sf::Vector2f velocity;
-
-    float health;
-
-    bool sliding;
-
+    sf::Vector2f position;
 public:
-    Player();
-    Player(float x, float y);
+    sf::Vector2f force;
+    sf::Vector2f velocity;
+    Entity(float width, float height);
+    Entity(float x, float y, float width, float height);
 
     bool load_textures();
     void show(sf::RenderWindow& window);
@@ -29,5 +23,4 @@ public:
     bool fix_collisions(std::vector<Obstacle>& obstacles, sf::Vector2f step, float dt);
 
     sf::Vector2f getPosition();
-    float getHealth();
 };

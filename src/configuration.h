@@ -25,10 +25,9 @@ namespace conf {
     // Player configuration
     sf::Vector2f const player_hitbox = {42, 72};
     sf::Vector2f const player_sliding_hitbox = {42, 30};
-    float const player_speed = 1;
 
     // HUD configuration
     bool const show_hud = true;
-    bool const draw_hitboxes = false;
+    bool const draw_hitboxes = true;
     sf::Vector2f const healthbar_position = {30, 30};
 }

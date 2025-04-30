@@ -45,6 +45,7 @@ void HUD::display_healthbar(sf::RenderWindow& window, Player& player) {
     healthbar_sprite3.setScale({0.2, 0.2});
 
     window.draw(healthbar_sprite2);
-    window.draw(healthbar_sprite3);
+    if (player.getHealth() > 0)
+        window.draw(healthbar_sprite3);
     window.draw(healthbar_sprite1);
 }
