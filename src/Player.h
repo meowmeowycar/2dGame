@@ -9,9 +9,9 @@ class Player : public Entity {
     bool sliding;
 
 public:
-    Player();
     Player(float x, float y);
+    Player();
 
-    void update (std::vector<Obstacle>& obstacles, float dt);
+    void update(std::vector<Obstacle>& obstacles, float dt);
     float getHealth();
 };

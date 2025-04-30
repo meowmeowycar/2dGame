@@ -6,6 +6,7 @@
 #include "Obstacle.h"
 #include "HUD.h"
 #include "Entity.h"
+#include "Enemy.h"
 
 int main() {
     sf::Clock clock;
@@ -50,6 +51,13 @@ int main() {
     }
 
 
+    Enemy enemy(-1400, -500, 100, 100);
+
+    if (!enemy.load_textures()) {
+        return -1;
+    }
+
+
     auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Fullscreen);
 
     if (conf::limit_framerate)
@@ -70,6 +78,7 @@ int main() {
 
         player.update(obstacles, actual_dt);
         entity.update(obstacles, actual_dt);
+        enemy.update(player, obstacles, actual_dt);
 
         player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
 
@@ -96,7 +105,7 @@ int main() {
         obstacles[0].show(window);
 
         entity.show(window);
-
+        enemy.show(window);
         player.show(window);
 
         window.display();

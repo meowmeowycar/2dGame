@@ -31,6 +31,8 @@ add_executable(main
         src/HUD.h
         src/Entity.cpp
         src/Entity.h
+        src/Enemy.cpp
+        src/Enemy.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)

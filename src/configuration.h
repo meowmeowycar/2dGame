@@ -26,6 +26,9 @@ namespace conf {
     sf::Vector2f const player_hitbox = {42, 72};
     sf::Vector2f const player_sliding_hitbox = {42, 30};
 
+    // Enemy configuration
+    float const vision_distance = 500;
+
     // HUD configuration
     bool const show_hud = true;
     bool const draw_hitboxes = true;
