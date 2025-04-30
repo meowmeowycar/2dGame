@@ -4,14 +4,15 @@
 #include <vector>
 
 class Entity {
+protected:
     sf::Texture entity_texture;
 
     sf::Vector2f hitbox;
 
     sf::Vector2f position;
-public:
     sf::Vector2f force;
     sf::Vector2f velocity;
+public:
     Entity(float width, float height);
     Entity(float x, float y, float width, float height);
 

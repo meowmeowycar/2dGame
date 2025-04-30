@@ -41,9 +41,9 @@ int main() {
 
     Entity entity(player.getPosition().x, -300, 25, 25);
 
-    entity.force.x = 20000;
-    entity.velocity.x = 500;
-    entity.velocity.y = -500;
+    //entity.force.x = 20000;
+    //entity.velocity.x = 500;
+    //entity.velocity.y = -500;
 
     if (!entity.load_textures()) {
         return -1;
@@ -64,7 +64,7 @@ int main() {
     while (window.isOpen())
     {
         // Logic
-        actual_dt = conf::dt;
+        //actual_dt = conf::dt;
 
         processEvents(window);
 

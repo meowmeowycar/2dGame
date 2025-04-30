@@ -7,13 +7,12 @@
 #include <cmath>
 
 
-Player::Player() : position(0,0), velocity({0, 0}), gravity(980.0f * 144), hitbox(conf::player_hitbox), health(100){
+Player::Player(float x, float y) : Entity(x, y, conf::player_hitbox.x, conf::player_hitbox.y), health(100){
 }
 
-Player::Player(float x, float y) : Player(){
-  position = sf::Vector2f(x, y);
-}
+Player::Player() : Player(0, 0) {}
 
+/*
 bool Player::load_textures() {
   if (!Obrazek(conf::playerImage, player_texture)) {
     return false;
@@ -21,32 +20,13 @@ bool Player::load_textures() {
 
   return true;
 }
-
-sf::Vector2f Player::getPosition() {
-  return position;
-}
+*/
 
 float Player::getHealth() {
   return health;
 }
 
-void Player::show(sf::RenderWindow& window) {
-  sf::Sprite player_sprite(player_texture);
-  player_sprite.setPosition(position);
-  player_sprite.setOrigin({(float) player_texture.getSize().x / 2, (float) player_texture.getSize().y / 2});
-  player_sprite.setScale({1, hitbox.y / conf::player_hitbox.y});
-  window.draw(player_sprite);
-
-  if (conf::draw_hitboxes)
-    draw_hitbox(window);
-}
-void Player::move(sf::Vector2f step) {
-  position.x += step.x;
-  position.y += step.y;
-}
 void Player::update(std::vector<Obstacle>& obstacles, float dt) {
-  sf::Vector2f step = {0, 0};
-
   float on_the_floor = false;
 
   for (int i = 0; i < obstacles.size(); i++) {
@@ -75,7 +55,8 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
     }
   }
   if (sliding) {
-    velocity.x -= sign(velocity.x) * 0.005; // zmiana dlugosci slidu
+    //velocity.x -= sign(velocity.x) * 0.5; // zmiana dlugosci slidu
+    force.x = -sign(velocity.x) / dt / dt * 0.5;
 
     if (hitbox.x == conf::player_hitbox.x && hitbox.y == conf::player_hitbox.y) {
       hitbox = conf::player_sliding_hitbox;
@@ -85,10 +66,10 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
     velocity.x = 0;
 
     if (isKeyPressed(sf::Keyboard::Key::D)) {
-      if (velocity.x < 1) velocity.x += 1;
+      if (velocity.x < 1) velocity.x += 200;
     }
     if (isKeyPressed(sf::Keyboard::Key::A)) {
-      if (velocity.x > -1) velocity.x -= 1;
+      if (velocity.x > -1) velocity.x -= 200;
     }
 
     if (hitbox.x == conf::player_sliding_hitbox.x && hitbox.y == conf::player_sliding_hitbox.y) {
@@ -97,6 +78,9 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
     }
   }
 
+  velocity.x += force.x * dt * dt;
+  velocity.y += force.y * dt * dt;
+
   float floorLevel = 1080 - hitbox.y / 2;
 
   if (position.y >= floorLevel) {
@@ -104,16 +88,29 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
     //velocity.y = 0;
   }
 
-  velocity.y += gravity * dt * dt;
+  sf::Vector2f step = {0, 0};
+  float steps = 0;
 
-  step.x = velocity.x;
-  step.y = sign(velocity.y);
+  if(abs(velocity.x) > abs(velocity.y)) {
+    steps = abs(velocity.x) * dt;
+    step.x = velocity.x / abs(velocity.x);
+    step.y = velocity.y / abs(velocity.x);
+  } else if(abs(velocity.y) > abs(velocity.x)) {
+    steps = abs(velocity.y) * dt;
+    step.x = velocity.x / abs(velocity.y);
+    step.y = velocity.y / abs(velocity.y);
+  } else {
+    steps = abs(velocity.x) * dt;
+    step.x = sign(velocity.x);
+    step.y = sign(velocity.y);
+  }
 
-  if (ceil(abs(velocity.y) * dt)) step.x *= 2 / ceil(abs(velocity.y) * dt);
-  else step.x *= 2;
+  for (int j = 0; j <= steps; j++) {
+    if((steps - j) < 1) {
+      step.x *= steps - j;
+      step.y *= steps - j;
+    }
 
-
-  for (int j = 0; j < ceil(abs(velocity.y) * dt); j++) {
     bool collided_x = false;
     bool collided_y = false;
     for (int i = 0; i < obstacles.size(); i++) {
@@ -121,14 +118,17 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
       if ((abs(distance.x - step.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
         collided_x = true;
         velocity.x = 0;
+        step.x = 0;
       }
       if ((abs(distance.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
         collided_y = true;
         velocity.y = 0;
+        step.y = 0;
       }
       if ((abs(distance.x - step.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0 && !collided_x) {
         collided_y = true;
         velocity.y = 0;
+        step.y = 0;
       }
     }
 
@@ -139,21 +139,11 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
     if (collided_x) step_copy.x = 0;
     if (collided_y) step_copy.y = 0;
 
-    if (step_copy.length() != 0)
-      move(step_copy);
+    move(step_copy);
   }
 
 }
 
-void Player::draw_hitbox(sf::RenderWindow& window) {
-  sf::RectangleShape hitbox_shape({hitbox.x - 2, hitbox.y - 2});
-  hitbox_shape.setPosition(position);
-  hitbox_shape.setOrigin({hitbox.x / 2, hitbox.y / 2});
-  hitbox_shape.setFillColor(sf::Color::Transparent);
-  hitbox_shape.setOutlineColor(sf::Color::Red);
-  hitbox_shape.setOutlineThickness(1);
-  window.draw(hitbox_shape);
-}
 /* NOT USED
 bool Player::fix_collisions(std::vector<Obstacle>& obstacles, sf::Vector2f step, float dt) {
   for (int i = 0; i < obstacles.size(); i++) {
