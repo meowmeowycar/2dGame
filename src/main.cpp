@@ -1,4 +1,6 @@
 #include <SFML/Graphics.hpp>
+
+#include "Archer.h"
 #include "events.h"
 #include "Player.h"
 #include "configuration.h"
@@ -7,6 +9,7 @@
 #include "HUD.h"
 #include "Entity.h"
 #include "Enemy.h"
+#include "Stalker.h"
 
 int main() {
     sf::Clock clock;
@@ -40,20 +43,23 @@ int main() {
     }
 
 
-    Entity entity(player.getPosition().x, -300, 25, 25);
+    Enemy enemy(0, -500, 100, 100);
 
-    //entity.force.x = 20000;
-    //entity.velocity.x = 500;
-    //entity.velocity.y = -500;
-
-    if (!entity.load_textures()) {
+    if (!enemy.load_textures()) {
         return -1;
     }
 
 
-    Enemy enemy(-1400, -500, 100, 100);
+    Stalker stalker(-400, -500);
 
-    if (!enemy.load_textures()) {
+    if (!stalker.load_textures()) {
+        return -1;
+    }
+
+
+    Archer archer(-400, -500);
+
+    if (!archer.load_textures()) {
         return -1;
     }
 
@@ -77,8 +83,9 @@ int main() {
         processEvents(window);
 
         player.update(obstacles, actual_dt);
-        entity.update(obstacles, actual_dt);
-        enemy.update(player, obstacles, actual_dt);
+        //enemy.update(player, obstacles, actual_dt);
+        //stalker.update(player, obstacles, actual_dt);
+        archer.update(player, obstacles, actual_dt);
 
         player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
 
@@ -104,8 +111,9 @@ int main() {
         obstacles[1].show(window);
         obstacles[0].show(window);
 
-        entity.show(window);
-        enemy.show(window);
+        //enemy.show(window);
+        //stalker.show(window);
+        archer.show(window);
         player.show(window);
 
         window.display();

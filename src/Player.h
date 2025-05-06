@@ -13,5 +13,7 @@ public:
     Player();
 
     void update(std::vector<Obstacle>& obstacles, float dt);
+    void reduce_health(float damage);
+
     float getHealth();
 };

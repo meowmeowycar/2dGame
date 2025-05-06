@@ -3,9 +3,11 @@
 #include "Player.h"
 
 class Enemy : public Entity {
+protected:
     float health;
 
     bool see_player;
+    short vision_direction;
 
 public:
     Enemy(float x, float y, float width, float height);
@@ -17,5 +19,4 @@ public:
     void check_vision(Player& player, std::vector<Obstacle>& obstacles);
 
     void show(sf::RenderWindow& window);
-    void draw_hitbox(sf::RenderWindow& window);
 };

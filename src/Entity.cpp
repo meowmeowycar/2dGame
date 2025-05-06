@@ -7,7 +7,7 @@
 #include <cmath>
 
 
-Entity::Entity(float x, float y, float width, float height) : position(x, y), velocity({0, 0}), force({0, 980.0f * 144}), hitbox(width, height) {}
+Entity::Entity(float x, float y, float width, float height) : position(x, y), velocity({0, 0}), force({0, 0}), hitbox(width, height), hitbox_color(sf::Color::Red), gravity_enabled(true), rotation(0) {}
 
 Entity::Entity(float width, float height) : Entity(0, 0, width, height) {}
 
@@ -24,11 +24,12 @@ sf::Vector2f Entity::getPosition() {
 }
 
 void Entity::show(sf::RenderWindow& window) {
-  sf::Sprite player_sprite(entity_texture);
-  player_sprite.setPosition(position);
-  player_sprite.setOrigin({(float) entity_texture.getSize().x / 2, (float) entity_texture.getSize().y / 2});
-  player_sprite.setScale({hitbox.x / conf::player_hitbox.x, hitbox.y / conf::player_hitbox.y});
-  window.draw(player_sprite);
+  sf::Sprite entity_sprite(entity_texture);
+  entity_sprite.setPosition(position);
+  entity_sprite.setOrigin({(float) entity_texture.getSize().x / 2, (float) entity_texture.getSize().y / 2});
+  entity_sprite.setScale({hitbox.x / conf::player_hitbox.x, hitbox.y / conf::player_hitbox.y});
+  entity_sprite.setRotation(sf::radians(rotation));
+  window.draw(entity_sprite);
 
   if (conf::draw_hitboxes)
     draw_hitbox(window);
@@ -39,7 +40,12 @@ void Entity::move(sf::Vector2f step) {
 }
 void Entity::update(std::vector<Obstacle>& obstacles, float dt) {
   velocity.x += force.x * dt * dt;
-  velocity.y += force.y * dt * dt;
+
+  if (gravity_enabled) {
+    velocity.y += (force.y + conf::gravity_force) * dt * dt;
+  } else {
+    velocity.y += force.y * dt * dt;
+  }
 
   float floorLevel = 1080 - hitbox.y / 2;
 
@@ -109,7 +115,33 @@ void Entity::draw_hitbox(sf::RenderWindow& window) {
   hitbox_shape.setPosition(position);
   hitbox_shape.setOrigin({hitbox.x / 2, hitbox.y / 2});
   hitbox_shape.setFillColor(sf::Color::Transparent);
-  hitbox_shape.setOutlineColor(sf::Color::Red);
+  hitbox_shape.setOutlineColor(hitbox_color);
   hitbox_shape.setOutlineThickness(1);
   window.draw(hitbox_shape);
+}
+
+void Entity::setTexture(sf::Texture texture) {
+  entity_texture = texture;
+}
+
+void Entity::setVelocity(sf::Vector2f new_velocity) {
+  velocity.x = new_velocity.x;
+  velocity.y = new_velocity.y;
+}
+
+void Entity::setForce(sf::Vector2f new_force) {
+  force.x = new_force.x;
+  force.y = new_force.y;
+}
+
+void Entity::setRotation(float new_rotation) {
+  rotation = new_rotation;
+}
+
+void Entity::gravity(bool enabled) {
+  gravity_enabled = enabled;
+}
+
+sf::Vector2f Entity::getHitbox() {
+  return {hitbox.x, hitbox.y};
 }

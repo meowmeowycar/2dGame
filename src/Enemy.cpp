@@ -4,7 +4,7 @@
 #include "functions.h"
 
 
-Enemy::Enemy(float x, float y, float width, float height) : Entity(x, y, width, height), see_player(false) {}
+Enemy::Enemy(float x, float y, float width, float height) : Entity(x, y, width, height), see_player(false), vision_direction(-1) {}
 
 Enemy::Enemy(float width, float height) : Enemy(0, 0, width, height) {}
 
@@ -15,7 +15,15 @@ float Enemy::getHealth() {
 
 void Enemy::update(Player& player, std::vector<Obstacle>& obstacles, float dt) {
   Entity::update(obstacles, dt);
+
   check_vision(player, obstacles);
+
+  if (see_player) {
+    hitbox_color = sf::Color::Green;
+    vision_direction = sign(player.getPosition().x - position.x);
+  } else {
+    hitbox_color = sf::Color::Yellow;
+  }
 }
 
 void Enemy::check_vision(Player& player, std::vector<Obstacle>& obstacles) {
@@ -23,7 +31,7 @@ void Enemy::check_vision(Player& player, std::vector<Obstacle>& obstacles) {
 
   see_player = false;
 
-  if(distance.length() < conf::vision_distance) {
+  if(distance.length() < conf::vision_distance && sign(distance.x) == vision_direction || distance.length() < conf::back_vision_distance && sign(distance.x) != vision_direction) {
     see_player = true;
 
     float steps = 0;
@@ -62,27 +70,14 @@ void Enemy::check_vision(Player& player, std::vector<Obstacle>& obstacles) {
   }
 }
 
-void Enemy::draw_hitbox(sf::RenderWindow& window) {
-  sf::RectangleShape hitbox_shape({hitbox.x - 2, hitbox.y - 2});
-  hitbox_shape.setPosition(position);
-  hitbox_shape.setOrigin({hitbox.x / 2, hitbox.y / 2});
-  hitbox_shape.setFillColor(sf::Color::Transparent);
-  if(see_player)
-    hitbox_shape.setOutlineColor(sf::Color::Green);
-  else
-    hitbox_shape.setOutlineColor(sf::Color::Yellow);
-  hitbox_shape.setOutlineThickness(1);
-  window.draw(hitbox_shape);
-}
-
-
 void Enemy::show(sf::RenderWindow& window) {
-  sf::Sprite player_sprite(entity_texture);
-  player_sprite.setPosition(position);
-  player_sprite.setOrigin({(float) entity_texture.getSize().x / 2, (float) entity_texture.getSize().y / 2});
-  player_sprite.setScale({hitbox.x / conf::player_hitbox.x, hitbox.y / conf::player_hitbox.y});
-  window.draw(player_sprite);
+  Entity::show(window);
 
-  if (conf::draw_hitboxes)
-    draw_hitbox(window);
+  if (conf::draw_hitboxes) {
+    sf::RectangleShape line({(conf::vision_distance + conf::back_vision_distance) * vision_direction, 1.0f});
+    line.setPosition({position.x - conf::back_vision_distance * vision_direction, position.y});
+    line.setFillColor(sf::Color::Red);
+
+    window.draw(line);
+  }
 }

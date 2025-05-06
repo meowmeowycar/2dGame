@@ -33,6 +33,10 @@ add_executable(main
         src/Entity.h
         src/Enemy.cpp
         src/Enemy.h
+        src/Stalker.cpp
+        src/Stalker.h
+        src/Archer.cpp
+        src/Archer.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)

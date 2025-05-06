@@ -26,6 +26,13 @@ float Player::getHealth() {
   return health;
 }
 
+void Player::reduce_health(float damage) {
+  health -= damage;
+
+  if (health <= 0)
+    health = 0;
+}
+
 void Player::update(std::vector<Obstacle>& obstacles, float dt) {
   float on_the_floor = false;
 
@@ -37,8 +44,10 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
     }
   }
 
-  if (abs(velocity.x) < 0.2 && abs(velocity.y) < 0.2)
+  if (sliding && abs(velocity.x) < 1 && abs(velocity.y) < 1) {
+    velocity.x = 0;
     sliding = false;
+  }
 
   if (on_the_floor && isKeyPressed(sf::Keyboard::Key::LControl)) {
     sliding = true;
@@ -51,18 +60,17 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
     if (on_the_floor) {
       velocity.y = -500;
       sliding = false;
-      health -= 10;
     }
   }
   if (sliding) {
-    //velocity.x -= sign(velocity.x) * 0.5; // zmiana dlugosci slidu
-    force.x = -sign(velocity.x) / dt / dt * 0.5;
+    force.x = -sign(velocity.x) / dt / dt * 0.75; // zmiana dlugosci slidu
 
     if (hitbox.x == conf::player_hitbox.x && hitbox.y == conf::player_hitbox.y) {
       hitbox = conf::player_sliding_hitbox;
       position.y += (conf::player_hitbox.y - conf::player_sliding_hitbox.y) / 2;
     }
   } else {
+    force.x = 0;
     velocity.x = 0;
 
     if (isKeyPressed(sf::Keyboard::Key::D)) {
@@ -79,7 +87,12 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
   }
 
   velocity.x += force.x * dt * dt;
-  velocity.y += force.y * dt * dt;
+
+  if (gravity_enabled) {
+    velocity.y += (force.y + conf::gravity_force) * dt * dt;
+  } else {
+    velocity.y += force.y * dt * dt;
+  }
 
   float floorLevel = 1080 - hitbox.y / 2;
 
@@ -141,7 +154,6 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
 
     move(step_copy);
   }
-
 }
 
 /* NOT USED
