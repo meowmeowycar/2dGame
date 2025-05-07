@@ -5,6 +5,8 @@
 
 class Entity {
 protected:
+    static bool draw_hitboxes;
+
     sf::Texture entity_texture;
 
     sf::Vector2f hitbox;
@@ -36,4 +38,5 @@ public:
     void setRotation(float new_rotation);
 
     void gravity(bool enabled);
+    static void toogle_hitboxes();
 };

@@ -41,9 +41,15 @@ namespace conf {
     sf::Vector2f const arrow_hitbox = {50, 20};
     float const arrow_speed = 1000;
 
+    // Sprinter configuration
+    sf::Vector2f const sprinter_hitbox = player_hitbox;
+    float const sprinter_damage = 100;
+    float const charge_time = 2;
+    float const dash_distance = vision_distance;
+
     // HUD configuration
     bool const show_hud = true;
-    bool const draw_hitboxes = false;
+    bool const draw_hitboxes = true;
     sf::Vector2f const healthbar_position = {30, 30};
 
     // Physics configuration

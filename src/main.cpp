@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-
 #include "Archer.h"
 #include "events.h"
 #include "Player.h"
@@ -10,6 +9,7 @@
 #include "Entity.h"
 #include "Enemy.h"
 #include "Stalker.h"
+#include "Sprinter.h"
 
 int main() {
     sf::Clock clock;
@@ -64,6 +64,13 @@ int main() {
     }
 
 
+    Sprinter sprinter(-400, -500);
+
+    if (!sprinter.load_textures()) {
+        return -1;
+    }
+
+
     auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Fullscreen);
 
     if (conf::limit_framerate)
@@ -85,7 +92,8 @@ int main() {
         player.update(obstacles, actual_dt);
         //enemy.update(player, obstacles, actual_dt);
         //stalker.update(player, obstacles, actual_dt);
-        archer.update(player, obstacles, actual_dt);
+        //archer.update(player, obstacles, actual_dt);
+        sprinter.update(player, obstacles, actual_dt);
 
         player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
 
@@ -99,9 +107,6 @@ int main() {
 
         window.draw(background1);
 
-        if (conf::show_hud)
-            HUD::display_hud(window, actual_dt, player);
-
         //-----------------------------------
 
         window.setView(player_view);
@@ -113,8 +118,19 @@ int main() {
 
         //enemy.show(window);
         //stalker.show(window);
-        archer.show(window);
+        //archer.show(window);
+        sprinter.show(window);
         player.show(window);
+
+        //-----------------------------------
+
+        window.setView(window.getDefaultView());
+
+        // Foreground view -----------------
+
+        HUD::display_hud(window, actual_dt, player);
+
+        //-----------------------------------
 
         window.display();
 

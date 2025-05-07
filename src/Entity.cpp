@@ -7,6 +7,8 @@
 #include <cmath>
 
 
+bool Entity::draw_hitboxes = conf::draw_hitboxes;
+
 Entity::Entity(float x, float y, float width, float height) : position(x, y), velocity({0, 0}), force({0, 0}), hitbox(width, height), hitbox_color(sf::Color::Red), gravity_enabled(true), rotation(0) {}
 
 Entity::Entity(float width, float height) : Entity(0, 0, width, height) {}
@@ -31,7 +33,7 @@ void Entity::show(sf::RenderWindow& window) {
   entity_sprite.setRotation(sf::radians(rotation));
   window.draw(entity_sprite);
 
-  if (conf::draw_hitboxes)
+  if (draw_hitboxes)
     draw_hitbox(window);
 }
 void Entity::move(sf::Vector2f step) {
@@ -144,4 +146,8 @@ void Entity::gravity(bool enabled) {
 
 sf::Vector2f Entity::getHitbox() {
   return {hitbox.x, hitbox.y};
+}
+
+void Entity::toogle_hitboxes() {
+  draw_hitboxes = !draw_hitboxes;
 }

@@ -20,7 +20,6 @@ void Enemy::update(Player& player, std::vector<Obstacle>& obstacles, float dt) {
 
   if (see_player) {
     hitbox_color = sf::Color::Green;
-    vision_direction = sign(player.getPosition().x - position.x);
   } else {
     hitbox_color = sf::Color::Yellow;
   }
@@ -31,7 +30,16 @@ void Enemy::check_vision(Player& player, std::vector<Obstacle>& obstacles) {
 
   see_player = false;
 
-  if(distance.length() < conf::vision_distance && sign(distance.x) == vision_direction || distance.length() < conf::back_vision_distance && sign(distance.x) != vision_direction) {
+  if (distance.length() < conf::back_vision_distance && sign(distance.x) != vision_direction) {
+    if (turn_delay.getElapsedTime().asSeconds() > 0.5) {
+      turn_delay.restart();
+      vision_direction = sign(player.getPosition().x - position.x);
+    }
+  } else {
+    turn_delay.restart();
+  }
+
+  if(distance.length() < conf::vision_distance && sign(distance.x) == vision_direction) {
     see_player = true;
 
     float steps = 0;
@@ -73,7 +81,7 @@ void Enemy::check_vision(Player& player, std::vector<Obstacle>& obstacles) {
 void Enemy::show(sf::RenderWindow& window) {
   Entity::show(window);
 
-  if (conf::draw_hitboxes) {
+  if (draw_hitboxes) {
     sf::RectangleShape line({(conf::vision_distance + conf::back_vision_distance) * vision_direction, 1.0f});
     line.setPosition({position.x - conf::back_vision_distance * vision_direction, position.y});
     line.setFillColor(sf::Color::Red);
