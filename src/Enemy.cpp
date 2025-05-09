@@ -4,13 +4,17 @@
 #include "functions.h"
 
 
-Enemy::Enemy(float x, float y, float width, float height) : Entity(x, y, width, height), see_player(false), vision_direction(-1) {}
+Enemy::Enemy(float x, float y, float width, float height) : Entity(x, y, width, height), see_player(false), vision_direction(-1), max_health(35), health(max_health) {}
 
 Enemy::Enemy(float width, float height) : Enemy(0, 0, width, height) {}
 
 
 float Enemy::getHealth() {
   return health;
+}
+
+void Enemy::reduce_health(float damage) {
+  health -= damage;
 }
 
 void Enemy::update(Player& player, std::vector<Obstacle>& obstacles, float dt) {
@@ -22,6 +26,12 @@ void Enemy::update(Player& player, std::vector<Obstacle>& obstacles, float dt) {
     hitbox_color = sf::Color::Green;
   } else {
     hitbox_color = sf::Color::Yellow;
+  }
+
+  bool in_range = abs(player.getPosition().x)
+
+  if (player.attack() && sign(position.x - player.getPosition().x) == player.getAttackDirection() && in_range) {
+    reduce_health(10);
   }
 }
 
@@ -80,6 +90,24 @@ void Enemy::check_vision(Player& player, std::vector<Obstacle>& obstacles) {
 
 void Enemy::show(sf::RenderWindow& window) {
   Entity::show(window);
+
+  if (health < max_health) {
+    sf::RectangleShape enemy_healthbar({max_health, 5});
+    enemy_healthbar.setFillColor(sf::Color::Black);
+    enemy_healthbar.setPosition({position.x - max_health / 2 - 1, position.y - 70});
+    enemy_healthbar.setOutlineColor(sf::Color::White);
+    enemy_healthbar.setOutlineThickness(1);
+
+    window.draw(enemy_healthbar);
+
+    if (health > 0) {
+      sf::RectangleShape enemy_health_level({health, 5});
+      enemy_health_level.setFillColor(sf::Color::Red);
+      enemy_health_level.setPosition({position.x - max_health / 2, position.y - 70});
+
+      window.draw(enemy_health_level);
+    }
+  }
 
   if (draw_hitboxes) {
     sf::RectangleShape line({(conf::vision_distance + conf::back_vision_distance) * vision_direction, 1.0f});

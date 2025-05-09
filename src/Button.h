@@ -27,9 +27,9 @@ public:
   sf::Vector2f getSize();
   std::string getText();
 
-  void updateAndShow(sf::RenderWindow &window);
-  void update(sf::RenderWindow &window);
-  void show(sf::RenderWindow &window);
+  void updateAndShow(sf::RenderWindow& window);
+  void update(sf::RenderWindow& window);
+  void show(sf::RenderWindow& window);
   bool isPressed();
   bool isRealesed();
 };

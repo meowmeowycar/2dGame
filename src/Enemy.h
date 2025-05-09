@@ -4,6 +4,7 @@
 
 class Enemy : public Entity {
 protected:
+    float max_health;
     float health;
 
     bool see_player;
@@ -16,6 +17,7 @@ public:
     Enemy(float width, float height);
 
     float getHealth();
+    void reduce_health(float damage);
 
     void update(Player& player, std::vector<Obstacle>& obstacles, float dt);
     void check_vision(Player& player, std::vector<Obstacle>& obstacles);

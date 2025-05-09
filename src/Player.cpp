@@ -9,7 +9,7 @@
 #include "HUD.h"
 
 
-Player::Player(float x, float y) : Entity(x, y, conf::player_hitbox.x, conf::player_hitbox.y), health(100), dead(false){
+Player::Player(float x, float y) : Entity(x, y, conf::player_hitbox.x, conf::player_hitbox.y), health(100), dead(false), hit(false), attack_direction(1){
 }
 
 Player::Player() : Player(0, 0) {}
@@ -23,6 +23,17 @@ bool Player::load_textures() {
   return true;
 }
 */
+
+bool Player::attack() {
+  if (hit)
+    return true;
+
+  return false;
+}
+
+short Player::getAttackDirection() {
+  return attack_direction;
+}
 
 float Player::getHealth() {
   return health;
@@ -54,7 +65,22 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
     dead = true;
   }
 
+  if (velocity.x != 0)
+    attack_direction = sign(velocity.x);
+
   if (!dead) {
+    if (isKeyPressed(sf::Keyboard::Key::Space)) {
+      if (hit_reset) {
+        hit_reset = false;
+        hit = true;
+      } else {
+        hit = false;
+      }
+    } else {
+      hit_reset = true;
+      hit = false;
+    }
+
     float on_the_floor = false;
 
     for (int i = 0; i < obstacles.size(); i++) {
@@ -81,6 +107,7 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
       if (on_the_floor) {
         velocity.y = -500;
         sliding = false;
+        hit = true;
       }
     }
     if (sliding) {
