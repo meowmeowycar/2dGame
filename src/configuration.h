@@ -52,6 +52,7 @@ namespace conf {
     bool const draw_hitboxes = true;
     sf::Vector2f const healthbar_position = {30, 30};
 
+
     // Physics configuration
     float const gravity_force = 980.0f * 144;
 }

@@ -28,7 +28,7 @@ void Enemy::update(Player& player, std::vector<Obstacle>& obstacles, float dt) {
     hitbox_color = sf::Color::Yellow;
   }
 
-  bool in_range = abs(player.getPosition().x)
+  bool in_range = abs(player.getPosition().x - position.x) <= conf::player_hitbox.x / 2 + hitbox.x / 2 + 100 && abs(player.getPosition().y - position.y) <= conf::player_hitbox.y / 6 + hitbox.y / 2;
 
   if (player.attack() && sign(position.x - player.getPosition().x) == player.getAttackDirection() && in_range) {
     reduce_health(10);

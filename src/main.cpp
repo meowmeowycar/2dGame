@@ -7,9 +7,10 @@
 #include "Obstacle.h"
 #include "HUD.h"
 #include "Entity.h"
-#include "Enemy.h"
 #include "Stalker.h"
+#include "Enemy.h"
 #include "Sprinter.h"
+#include "../cmake-build-release/_deps/sfml-src/src/SFML/Window/InputImpl.hpp"
 
 int main() {
     sf::Clock clock;
@@ -43,11 +44,14 @@ int main() {
     }
 
 
-    Enemy enemy(0, -500, 100, 100);
+    //std::vector<Enemy*> enemies;
+    //enemies.push_back(new Archer(-400, -500));
 
-    if (!enemy.load_textures()) {
-        return -1;
-    }
+    // for (const auto& enemy : enemies) {
+    //     if (!(*enemy).load_textures()) {
+    //         return -1;
+    //     }
+    // }
 
 
     Stalker stalker(-400, -500);
@@ -71,7 +75,16 @@ int main() {
     }
 
 
-    auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Fullscreen);
+    sf::Text test_text(conf::arial);
+    test_text.setCharacterSize(100);
+    test_text.setString("9999999999");
+
+    sf::Text mouse_pos_x(conf::arial);
+    mouse_pos_x.setCharacterSize(100);
+    mouse_pos_x.setPosition({1600, 0});
+
+
+    auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Windowed);
 
     if (conf::limit_framerate)
         window.setFramerateLimit(conf::max_framerate);
@@ -94,6 +107,15 @@ int main() {
         //stalker.update(player, obstacles, actual_dt);
         //archer.update(player, obstacles, actual_dt);
         sprinter.update(player, obstacles, actual_dt);
+
+        // for (const auto& enemy : enemies) {
+        //     (*enemy).update(player, obstacles, actual_dt);
+        // }
+
+
+        std::stringstream ss;
+        ss<<sf::priv::InputImpl::getMousePosition().x - 10;
+        mouse_pos_x.setString(ss.str().c_str());
 
         player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
 
@@ -122,6 +144,10 @@ int main() {
         sprinter.show(window);
         player.show(window);
 
+        // for (const auto& enemy : enemies) {
+        //     (*enemy).show(window);
+        // }
+
         //-----------------------------------
 
         window.setView(window.getDefaultView());
@@ -130,6 +156,10 @@ int main() {
 
         HUD::display_hud(window, actual_dt, player);
 
+        // CHARACTER LENGTH TEST
+        //window.draw(test_text);
+        //window.draw(mouse_pos_x);
+
         //-----------------------------------
 
         window.display();
@@ -137,4 +167,8 @@ int main() {
         time = clock.restart();
         actual_dt = time.asSeconds();
     }
+
+    // for (auto enemy : enemies) {
+    //     delete enemy;
+    // }
 }

@@ -107,7 +107,6 @@ void Player::update(std::vector<Obstacle>& obstacles, float dt) {
       if (on_the_floor) {
         velocity.y = -500;
         sliding = false;
-        hit = true;
       }
     }
     if (sliding) {

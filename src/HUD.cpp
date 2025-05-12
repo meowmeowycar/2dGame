@@ -10,7 +10,7 @@ sf::Texture HUD::healthbar_texture3;
 
 bool HUD::show_hud = conf::show_hud;
 
-Button HUD::respawn_button(conf::window_size_f.x / 2, conf::window_size_f.y - 200, 150, 50, "Respawn");
+Button HUD::respawn_button(conf::window_size_f.x / 2, conf::window_size_f.y - 200, 200, 60, "Respawn");
 
 bool HUD::load_graphics() {
     if (!Obrazek(conf::healthbarImage1, healthbar_texture1)) {

@@ -3,9 +3,12 @@
 #include <SFML/Graphics.hpp>
 
 class Button {
+  float char_lengths[128];
+
   sf::Vector2f position;
   sf::Vector2f size;
   std::string text;
+  float text_size;
   sf::Color color;
   sf::Color text_color;
 
@@ -22,10 +25,12 @@ public:
   void setText(std::string text);
   void setColor(sf::Color color);
   void setTextColor(sf::Color text_color);
+  void setTextSize(float size);
 
   sf::Vector2f getPosition();
   sf::Vector2f getSize();
   std::string getText();
+  float getTextSize();
 
   void updateAndShow(sf::RenderWindow& window);
   void update(sf::RenderWindow& window);
