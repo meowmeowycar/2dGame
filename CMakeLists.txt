@@ -31,6 +31,16 @@ add_executable(main
         src/HUD.h
         src/Entity.cpp
         src/Entity.h
+        src/Enemy.cpp
+        src/Enemy.h
+        src/Stalker.cpp
+        src/Stalker.h
+        src/Archer.cpp
+        src/Archer.h
+        src/Sprinter.cpp
+        src/Sprinter.h
+        src/Button.cpp
+        src/Button.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)

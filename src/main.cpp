@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "Archer.h"
 #include "events.h"
 #include "Player.h"
 #include "configuration.h"
@@ -6,6 +7,10 @@
 #include "Obstacle.h"
 #include "HUD.h"
 #include "Entity.h"
+#include "Stalker.h"
+#include "Enemy.h"
+#include "Sprinter.h"
+#include "../cmake-build-release/_deps/sfml-src/src/SFML/Window/InputImpl.hpp"
 
 int main() {
     sf::Clock clock;
@@ -39,18 +44,47 @@ int main() {
     }
 
 
-    Entity entity(player.getPosition().x, -300, 25, 25);
+    //std::vector<Enemy*> enemies;
+    //enemies.push_back(new Archer(-400, -500));
 
-    //entity.force.x = 20000;
-    //entity.velocity.x = 500;
-    //entity.velocity.y = -500;
+    // for (const auto& enemy : enemies) {
+    //     if (!(*enemy).load_textures()) {
+    //         return -1;
+    //     }
+    // }
 
-    if (!entity.load_textures()) {
+
+    Stalker stalker(-400, -500);
+
+    if (!stalker.load_textures()) {
         return -1;
     }
 
 
-    auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Fullscreen);
+    Archer archer(-400, -500);
+
+    if (!archer.load_textures()) {
+        return -1;
+    }
+
+
+    Sprinter sprinter(-400, -500);
+
+    if (!sprinter.load_textures()) {
+        return -1;
+    }
+
+
+    sf::Text test_text(conf::arial);
+    test_text.setCharacterSize(100);
+    test_text.setString("9999999999");
+
+    sf::Text mouse_pos_x(conf::arial);
+    mouse_pos_x.setCharacterSize(100);
+    mouse_pos_x.setPosition({1600, 0});
+
+
+    auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Windowed);
 
     if (conf::limit_framerate)
         window.setFramerateLimit(conf::max_framerate);
@@ -69,7 +103,19 @@ int main() {
         processEvents(window);
 
         player.update(obstacles, actual_dt);
-        entity.update(obstacles, actual_dt);
+        //enemy.update(player, obstacles, actual_dt);
+        //stalker.update(player, obstacles, actual_dt);
+        //archer.update(player, obstacles, actual_dt);
+        sprinter.update(player, obstacles, actual_dt);
+
+        // for (const auto& enemy : enemies) {
+        //     (*enemy).update(player, obstacles, actual_dt);
+        // }
+
+
+        std::stringstream ss;
+        ss<<sf::priv::InputImpl::getMousePosition().x - 10;
+        mouse_pos_x.setString(ss.str().c_str());
 
         player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
 
@@ -83,9 +129,6 @@ int main() {
 
         window.draw(background1);
 
-        if (conf::show_hud)
-            HUD::display_hud(window, actual_dt, player);
-
         //-----------------------------------
 
         window.setView(player_view);
@@ -95,13 +138,37 @@ int main() {
         obstacles[1].show(window);
         obstacles[0].show(window);
 
-        entity.show(window);
-
+        //enemy.show(window);
+        //stalker.show(window);
+        //archer.show(window);
+        sprinter.show(window);
         player.show(window);
+
+        // for (const auto& enemy : enemies) {
+        //     (*enemy).show(window);
+        // }
+
+        //-----------------------------------
+
+        window.setView(window.getDefaultView());
+
+        // Foreground view -----------------
+
+        HUD::display_hud(window, actual_dt, player);
+
+        // CHARACTER LENGTH TEST
+        //window.draw(test_text);
+        //window.draw(mouse_pos_x);
+
+        //-----------------------------------
 
         window.display();
 
         time = clock.restart();
         actual_dt = time.asSeconds();
     }
+
+    // for (auto enemy : enemies) {
+    //     delete enemy;
+    // }
 }
