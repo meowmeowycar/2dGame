@@ -41,6 +41,7 @@ add_executable(main
         src/Sprinter.h
         src/Button.cpp
         src/Button.h
+        src/char_lengths.h
         src/MainMenu.cpp
         src/MainMenu.h
         src/OptionsMenu.cpp

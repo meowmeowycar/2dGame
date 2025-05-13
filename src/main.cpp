@@ -54,6 +54,18 @@ int main() {
     }
 
 
+    std::vector<Enemy*> enemies;
+    enemies.push_back(new Archer(-400, -500));
+    enemies.push_back(new Sprinter(-400, -500));
+    enemies.push_back(new Stalker(-400, -500));
+
+    for (const auto& enemy : enemies) {
+        if (!(*enemy).load_textures()) {
+            return -1;
+        }
+    }
+
+
     Stalker stalker(-400, -500);
 
     if (!stalker.load_textures()) {
@@ -77,7 +89,7 @@ int main() {
 
     sf::Text test_text(conf::arial);
     test_text.setCharacterSize(100);
-    test_text.setString("9999999999");
+    test_text.setString("          WWW");
 
     sf::Text mouse_pos_x(conf::arial);
     mouse_pos_x.setCharacterSize(100);
@@ -137,6 +149,10 @@ int main() {
                 //archer.update(player, obstacles, actual_dt);
                 sprinter.update(player, obstacles, actual_dt);
 
+        for (const auto& enemy : enemies) {
+            (*enemy).update(player, obstacles, actual_dt);
+        }
+
 
                 std::stringstream ss;
                 ss<<sf::priv::InputImpl::getMousePosition().x - 10;
@@ -171,6 +187,10 @@ int main() {
             sprinter.show(window);
             player.show(window);
 
+            for (const auto& enemy : enemies) {
+                (*enemy).show(window);
+            }
+
             //-----------------------------------
 
             window.setView(window.getDefaultView());
@@ -193,5 +213,8 @@ int main() {
             actual_dt = time.asSeconds();
         }
     }
-}
 
+    for (auto enemy : enemies) {
+        delete enemy;
+    }
+}

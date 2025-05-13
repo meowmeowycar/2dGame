@@ -23,7 +23,7 @@ public:
     Entity(float width, float height);
     Entity(float x, float y, float width, float height);
 
-    bool load_textures();
+    virtual bool load_textures();
     void show(sf::RenderWindow& window);
     void draw_hitbox(sf::RenderWindow& window);
     void move(sf::Vector2f step);

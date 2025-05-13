@@ -11,8 +11,8 @@ public:
   Archer(float x, float y);
   Archer();
 
-  void update(Player& player, std::vector<Obstacle>& obstacles, float dt);
+  void update(Player& player, std::vector<Obstacle>& obstacles, float dt) override;
   void shoot(Player& player);
-  bool load_textures();
-  void show(sf::RenderWindow& window);
+  bool load_textures() override;
+  void show(sf::RenderWindow& window) override;
 };

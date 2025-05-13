@@ -40,7 +40,7 @@ void Archer::shoot(Player& player) {
 }
 
 bool Archer::load_textures() {
-  if (!Entity::load_textures()) {
+  if (!Enemy::load_textures()) {
     return false;
   }
 
