@@ -16,7 +16,8 @@ Player::Player() : Player(0, 0) {}
 
 /*
 bool Player::load_textures() {
-  if (!Obrazek(conf::playerImage, player_texture)) {
+
+  if (!Obrazek(conf::playerImage, playerTexture)) {
     return false;
   }
 

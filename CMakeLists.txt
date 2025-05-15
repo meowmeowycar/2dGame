@@ -41,6 +41,10 @@ add_executable(main
         src/Sprinter.h
         src/Button.cpp
         src/Button.h
+        src/MainMenu.cpp
+        src/MainMenu.h
+        src/OptionsMenu.cpp
+        src/OptionsMenu.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)

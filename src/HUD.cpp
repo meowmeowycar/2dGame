@@ -77,7 +77,7 @@ void HUD::display_deathscreen(sf::RenderWindow& window, Player& player) {
 
     respawn_button.updateAndShow(window);
 
-    if (respawn_button.isRealesed()) {
+    if (respawn_button.isReleased()) {
         player.respawn();
     }
 }
