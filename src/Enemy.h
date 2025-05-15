@@ -19,8 +19,8 @@ public:
     float getHealth();
     void reduce_health(float damage);
 
-    virtual void update(Player& player, std::vector<Obstacle>& obstacles, float dt);
-    void check_vision(Player& player, std::vector<Obstacle>& obstacles);
+    virtual void update(Player& player, std::vector<Obstacle*>& obstacles, float dt);
+    void check_vision(Player& player, std::vector<Obstacle*>& obstacles);
 
     virtual void show(sf::RenderWindow& window);
 };

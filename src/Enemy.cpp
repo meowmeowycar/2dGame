@@ -17,7 +17,7 @@ void Enemy::reduce_health(float damage) {
   health -= damage;
 }
 
-void Enemy::update(Player& player, std::vector<Obstacle>& obstacles, float dt) {
+void Enemy::update(Player& player, std::vector<Obstacle*>& obstacles, float dt) {
   Entity::update(obstacles, dt);
 
   check_vision(player, obstacles);
@@ -35,23 +35,14 @@ void Enemy::update(Player& player, std::vector<Obstacle>& obstacles, float dt) {
   }
 }
 
-void Enemy::check_vision(Player& player, std::vector<Obstacle>& obstacles) {
+void Enemy::check_vision(Player& player, std::vector<Obstacle*>& obstacles) {
   sf::Vector2f distance = {player.getPosition().x - position.x, player.getPosition().y - position.y};
 
   see_player = false;
 
-  if (distance.length() < conf::back_vision_distance && sign(distance.x) != vision_direction) {
-    if (turn_delay.getElapsedTime().asSeconds() > 0.5) {
-      turn_delay.restart();
-      vision_direction = sign(player.getPosition().x - position.x);
-    }
-  } else {
-    turn_delay.restart();
-  }
+  bool vision_blocked = false;
 
-  if(distance.length() < conf::vision_distance && sign(distance.x) == vision_direction) {
-    see_player = true;
-
+  if(distance.length() < conf::vision_distance) {
     float steps = 0;
     sf::Vector2f step = {0, 0};
     sf::Vector2f checked_point = {position.x, position.y};
@@ -75,16 +66,27 @@ void Enemy::check_vision(Player& player, std::vector<Obstacle>& obstacles) {
       checked_point.y += step.y;
 
       for(int j = 0; j < obstacles.size(); j++) {
-        bool blocked_x = abs(checked_point.x - obstacles[j].getPosition().x) - obstacles[j].getSize().x / 2 <= 0;
-        bool blocked_y = abs(checked_point.y - obstacles[j].getPosition().y) - obstacles[j].getSize().y / 2 <= 0;
+        bool blocked_x = abs(checked_point.x - (*obstacles[j]).getPosition().x) - (*obstacles[j]).getSize().x / 2 <= 0;
+        bool blocked_y = abs(checked_point.y - (*obstacles[j]).getPosition().y) - (*obstacles[j]).getSize().y / 2 <= 0;
 
         if(blocked_x && blocked_y) {
-          see_player = false;
+          vision_blocked = true;
           i = steps;
           break;
         }
       }
     }
+  }
+
+  if (distance.length() < conf::vision_distance && sign(distance.x) == vision_direction && !vision_blocked) {
+    see_player = true;
+  } else if (distance.length() < conf::back_vision_distance && sign(distance.x) != vision_direction && !vision_blocked) {
+    if (turn_delay.getElapsedTime().asSeconds() > 0.5) {
+      turn_delay.restart();
+      vision_direction = sign(player.getPosition().x - position.x);
+    }
+  } else {
+    turn_delay.restart();
   }
 }
 

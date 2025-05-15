@@ -27,8 +27,8 @@ public:
     void show(sf::RenderWindow& window);
     void draw_hitbox(sf::RenderWindow& window);
     void move(sf::Vector2f step);
-    void update (std::vector<Obstacle>& obstacles, float dt);
-    bool fix_collisions(std::vector<Obstacle>& obstacles, sf::Vector2f step, float dt);
+    virtual void update (std::vector<Obstacle*>& obstacles, float dt);
+    bool fix_collisions(std::vector<Obstacle*>& obstacles, sf::Vector2f step, float dt);
 
     sf::Vector2f getPosition();
     sf::Vector2f getHitbox();
@@ -39,4 +39,5 @@ public:
 
     void gravity(bool enabled);
     static void toogle_hitboxes();
+    static bool drawing_hitboxes();
 };

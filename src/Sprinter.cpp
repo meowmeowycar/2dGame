@@ -1,13 +1,22 @@
 #include "Sprinter.h"
 #include "configuration.h"
 #include "functions.h"
+#include "ImageDisplay.h"
 
 
 Sprinter::Sprinter(float x, float y) : Enemy(x, y, conf::sprinter_hitbox.x, conf::sprinter_hitbox.y), charging(false), dashing(false), dash_starting_position(0), attacked_player(false) {}
 
 Sprinter::Sprinter() : Sprinter(0, 0) {}
 
-void Sprinter::update(Player& player, std::vector<Obstacle>& obstacles, float dt) {
+bool Sprinter::load_textures() {
+  if (!Obrazek(conf::sprinterImage, entity_texture)) {
+    return false;
+  }
+
+  return true;
+}
+
+void Sprinter::update(Player& player, std::vector<Obstacle*>& obstacles, float dt) {
   Enemy::update(player, obstacles, dt);
 
   if(see_player) {

@@ -48,6 +48,10 @@ add_executable(main
         src/OptionsMenu.h
         src/PauseMenu.cpp
         src/PauseMenu.h
+        src/Semi_obstacle.cpp
+        src/Semi_obstacle.h
+        src/Arrow.cpp
+        src/Arrow.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)

@@ -1,13 +1,22 @@
 #include "Stalker.h"
 #include "configuration.h"
 #include "functions.h"
+#include "ImageDisplay.h"
 
 Stalker::Stalker(float x, float y) : Enemy(x, y, conf::stalker_hitbox.x, conf::stalker_hitbox.y), is_touching_player(false) {
   vision_direction = -1;
 }
 Stalker::Stalker() : Stalker(0, 0) {}
 
-void Stalker::update(Player& player, std::vector<Obstacle>& obstacles, float dt) {
+bool Stalker::load_textures() {
+  if (!Obrazek(conf::stalkerImage, entity_texture)) {
+    return false;
+  }
+
+  return true;
+}
+
+void Stalker::update(Player& player, std::vector<Obstacle*>& obstacles, float dt) {
   Enemy::update(player, obstacles, dt);
   check_touching(player);
 

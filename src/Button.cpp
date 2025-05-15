@@ -1,7 +1,6 @@
 #include "Button.h"
 #include "configuration.h"
 #include "char_lengths.h"
-#include "../cmake-build-release/_deps/sfml-src/extlibs/headers/miniaudio/miniaudio.h"
 
 Button::Button(float x, float y, float width, float height, std::string text) : position({x, y}), size(width, height), text(text), text_size(35), color(sf::Color::Black), text_color(sf::Color::White), pressed(false), released(false) {}
 
@@ -146,6 +145,6 @@ bool Button::isPressed() {
   return pressed;
 }
 
-bool Button::isRealesed() {
+bool Button::isReleased() {
   return released;
 }
