@@ -15,6 +15,7 @@
 #include "../cmake-build-release/_deps/sfml-src/src/SFML/Window/InputImpl.hpp"
 #include "MainMenu.h"
 #include "OptionsMenu.h"
+#include "PauseMenu.h"
 
 int main() {
     sf::Clock clock;
@@ -143,84 +144,83 @@ int main() {
         time = clock.restart();
         float actual_dt = conf::dt;
 
-        while (window.isOpen())
-        {
+        while (window.isOpen()) {
             // Logic
             //actual_dt = conf::dt;
 
             processEvents(window);
 
-            player.update(obstacles, actual_dt);
-            //enemy.update(player, obstacles, actual_dt);
-            //stalker.update(player, obstacles, actual_dt);
-            //archer.update(player, obstacles, actual_dt);
-            sprinter.update(player, obstacles, actual_dt);
+            if (!PauseMenu::is_pausemenu_shown()) {
+                player.update(obstacles, actual_dt);
+                //enemy.update(player, obstacles, actual_dt);
+                //stalker.update(player, obstacles, actual_dt);
+                //archer.update(player, obstacles, actual_dt);
+                sprinter.update(player, obstacles, actual_dt);
 
-            // for (const auto& enemy : enemies) {
-            //     (*enemy).update(player, obstacles, actual_dt);
+                // for (const auto& enemy : enemies) {
+                //     (*enemy).update(player, obstacles, actual_dt);
+                // }z
+
+
+                std::stringstream ss;
+                ss<<sf::priv::InputImpl::getMousePosition().x - 10;
+                mouse_pos_x.setString(ss.str().c_str());
+
+                player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
+            }
+                // Display
+
+                window.clear();
+
+                window.setView(window.getDefaultView());
+
+                // Background view -----------------
+
+                window.draw(background1);
+
+                //-----------------------------------
+
+                window.setView(player_view);
+
+                // Player view ----------------------
+
+                obstacles[1].show(window);
+                obstacles[0].show(window);
+
+                //enemy.show(window);
+                //stalker.show(window);
+                //archer.show(window);
+                sprinter.show(window);
+                player.show(window);
+
+                // for (const auto& enemy : enemies) {
+                //     (*enemy).show(window);
+                // }
+
+                //-----------------------------------
+
+                window.setView(window.getDefaultView());
+
+                // Foreground view -----------------
+
+                HUD::display_hud(window, actual_dt, player);
+                PauseMenu::display_pausemenu(window);
+
+
+                // CHARACTER LENGTH TEST
+                //window.draw(test_text);
+                //window.draw(mouse_pos_x);
+
+                //-----------------------------------
+
+                window.display();
+
+                time = clock.restart();
+                actual_dt = time.asSeconds();
+            }
+            // for (auto enemy : enemies) {
+            //     delete enemy;
             // }
-
-
-            std::stringstream ss;
-            ss<<sf::priv::InputImpl::getMousePosition().x - 10;
-            mouse_pos_x.setString(ss.str().c_str());
-
-            player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
-
-            // Display
-
-            window.clear();
-
-            window.setView(window.getDefaultView());
-
-            // Background view -----------------
-
-            window.draw(background1);
-
-            //-----------------------------------
-
-            window.setView(player_view);
-
-            // Player view ----------------------
-
-            obstacles[1].show(window);
-            obstacles[0].show(window);
-
-            //enemy.show(window);
-            //stalker.show(window);
-            //archer.show(window);
-            sprinter.show(window);
-            player.show(window);
-
-            // for (const auto& enemy : enemies) {
-            //     (*enemy).show(window);
-            // }
-
-            //-----------------------------------
-
-            window.setView(window.getDefaultView());
-
-            // Foreground view -----------------
-
-            HUD::display_hud(window, actual_dt, player);
-
-
-
-
-            // CHARACTER LENGTH TEST
-            //window.draw(test_text);
-            //window.draw(mouse_pos_x);
-
-            //-----------------------------------
-
-            window.display();
-
-            time = clock.restart();
-            actual_dt = time.asSeconds();
-        }
-
-        // for (auto enemy : enemies) {
-        //     delete enemy;
-        // }
     }
 }
+
