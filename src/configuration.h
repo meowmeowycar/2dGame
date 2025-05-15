@@ -13,6 +13,8 @@ namespace conf {
 
     // Graphics
     std::string const backgroundImage = "../../Media/backgrounds/background2.jpg";
+    std::string const optionsMenuBackgroundImage = "../../Media/backgrounds/MenuOptionsBack.png";
+    std::string const mainMenuBackgroundImage = "../../Media/backgrounds/MainMenuBack.jpg";
     std::string const playerImage = "../../Media/Ludzik.png";
     std::string const wallImage = "../../Media/terrain/wall.jpg";
     std::string const healthbarImage1 = "../../Media/HUD/healthbar1.png";

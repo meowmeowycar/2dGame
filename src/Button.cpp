@@ -2,7 +2,7 @@
 #include "configuration.h"
 #include "../cmake-build-release/_deps/sfml-src/extlibs/headers/miniaudio/miniaudio.h"
 
-Button::Button(float x, float y, float width, float height, std::string text) : position({x, y}), size(width, height), text(text), text_size(35) {
+Button::Button(float x, float y, float width, float height, std::string text) : position({x, y}), size(width, height), text(text), text_size(35), color(sf::Color::Black), text_color(sf::Color::White), pressed(false), released(false) {
   char_lengths[48] = 0.56;  // 0
   char_lengths[49] = 0.49;  // 1
   char_lengths[50] = 0.56;  // 2
@@ -90,16 +90,24 @@ void Button::setText(std::string text) {
 
 void Button::setColor(sf::Color color) {
   this->color = color;
+  this->currentColor = color;
+
+  this->activeColor = sf::Color(
+   std::min(color.r + 100, 255),
+   std::min(color.g + 100, 255),
+   std::min(color.b + 100, 255),
+   color.a
+ );
 }
 
 void Button::setTextColor(sf::Color text_color) {
   this->text_color = text_color;
+  this->text_currentColor = text_color;
 }
 
 void Button::setTextSize(float size) {
   text_size = size;
 }
-
 
 sf::Vector2f Button::getPosition() {
   return position;
@@ -126,22 +134,26 @@ void Button::updateAndShow(sf::RenderWindow &window) {
 void Button::update(sf::RenderWindow &window) {
   sf::Vector2f mouse_position = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
 
-  bool mouse_on_X = abs(mouse_position.x - position.x) <= size.x;
-  bool mouse_on_Y = abs(mouse_position.y - position.y) <= size.y;
+  bool mouse_on_X = abs(mouse_position.x - position.x) <= size.x / 2;
+  bool mouse_on_Y = abs(mouse_position.y - position.y) <= size.y / 2;
+
 
   if(mouse_on_X && mouse_on_Y) {
     if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
       pressed = true;
+      currentColor = activeColor;
     } else if(pressed) {
       pressed = false;
       released = true;
     } else {
       pressed = false;
       released = false;
+      currentColor = color;
     }
   } else {
     pressed = false;
     released = false;
+    currentColor = color;
   }
 }
 
@@ -149,14 +161,14 @@ void Button::show(sf::RenderWindow &window) {
   sf::RectangleShape button;
   button.setPosition(position);
   button.setSize(size);
-  button.setFillColor(color);
+  button.setFillColor(currentColor);
   button.setOrigin({size.x / 2, size.y / 2});
 
   window.draw(button);
 
   sf::Text button_text(conf::arial);
   button_text.setPosition(position);
-  button_text.setFillColor(text_color);
+  button_text.setFillColor(text_currentColor);
   button_text.setCharacterSize(text_size);
   button_text.setString(text);
   sf::Vector2f text_rect = {0, text_size * 1.5f};
@@ -203,6 +215,8 @@ bool Button::isPressed() {
   return pressed;
 }
 
-bool Button::isRealesed() {
-  return released;
+bool Button::isReleased() {
+  bool temp = released;
+  released = false;
+  return temp;
 }

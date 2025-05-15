@@ -10,7 +10,10 @@ class Button {
   std::string text;
   float text_size;
   sf::Color color;
+  sf::Color activeColor;
+  sf::Color currentColor;
   sf::Color text_color;
+  sf::Color text_currentColor;
 
   bool pressed;
   bool released;
@@ -36,5 +39,5 @@ public:
   void update(sf::RenderWindow& window);
   void show(sf::RenderWindow& window);
   bool isPressed();
-  bool isRealesed();
+  bool isReleased();
 };

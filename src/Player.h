@@ -18,6 +18,7 @@ public:
     Player(float x, float y);
     Player();
 
+
     bool attack();
 
     void update(std::vector<Obstacle>& obstacles, float dt);
