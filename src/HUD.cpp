@@ -3,6 +3,8 @@
 #include "FPS.h"
 #include "configuration.h"
 #include "ImageDisplay.h"
+#include "Button.h"
+#include "events.h"
 
 sf::Texture HUD::healthbar_texture1;
 sf::Texture HUD::healthbar_texture2;

@@ -2,6 +2,7 @@
 #include "events.h"
 #include "HUD.h"
 #include "Entity.h"
+#include "PauseMenu.h"
 
 void processEvents(sf::Window& window) {
     while (const std::optional event = window.pollEvent())
@@ -12,8 +13,9 @@ void processEvents(sf::Window& window) {
         }
 
         if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+
             if (keyPressed->scancode == sf::Keyboard::Scan::Escape) {
-                window.close();
+                PauseMenu::toggle_pausemenu();
             }
 
             if (keyPressed->scancode == sf::Keyboard::Scan::F1) {

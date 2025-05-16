@@ -14,6 +14,7 @@ class HUD {
 
   static void display_healthbar(sf::RenderWindow& window, Player& player);
   static void display_deathscreen(sf::RenderWindow& window, Player& player);
+
 public:
   static bool load_graphics();
   static void display_hud(sf::RenderWindow& window, float dt, Player& player);

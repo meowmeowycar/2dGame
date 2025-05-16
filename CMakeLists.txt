@@ -45,6 +45,8 @@ add_executable(main
         src/MainMenu.h
         src/OptionsMenu.cpp
         src/OptionsMenu.h
+        src/PauseMenu.cpp
+        src/PauseMenu.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)
