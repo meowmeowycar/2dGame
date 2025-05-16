@@ -21,7 +21,6 @@ add_executable(main
         src/Player.cpp
         src/Player.h
         src/configuration.h
-        src/functions.cpp
         src/functions.h
         src/FPS.cpp
         src/FPS.h

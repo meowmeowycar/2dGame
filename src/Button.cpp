@@ -146,5 +146,7 @@ bool Button::isPressed() {
 }
 
 bool Button::isReleased() {
-  return released;
+  bool temp = released;
+  released = false;
+  return temp;
 }

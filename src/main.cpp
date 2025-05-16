@@ -116,6 +116,7 @@ int main() {
             return 0;
         } else if (menuResult == MainMenu::MENU_PLAY) {
             // Logic
+
             //actual_dt = conf::dt;
 
             processEvents(window);
@@ -155,11 +156,11 @@ int main() {
 
             // Player view ----------------------
 
-        for (const auto& obstacle : obstacles) {
-            (*obstacle).show(window);
-        }
+            for (const auto& obstacle : obstacles) {
+                (*obstacle).show(window);
+            }
 
-        player.show(window);
+            player.show(window);
 
             for (const auto& enemy : enemies) {
                 (*enemy).show(window);
