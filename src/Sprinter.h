@@ -13,5 +13,6 @@ public:
   Sprinter(float x, float y);
   Sprinter();
 
-  void update(Player& player, std::vector<Obstacle>& obstacles, float dt);
+  bool load_textures() override;
+  void update(Player& player, std::vector<Obstacle*>& obstacles, float dt) override;
 };

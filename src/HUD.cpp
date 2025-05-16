@@ -3,6 +3,7 @@
 #include "FPS.h"
 #include "configuration.h"
 #include "ImageDisplay.h"
+#include "char_lengths.h"
 #include "Button.h"
 #include "events.h"
 
@@ -70,7 +71,7 @@ void HUD::display_deathscreen(sf::RenderWindow& window, Player& player) {
     sf::Text death_message(conf::arial);
     death_message.setString("YOU DIED");
     death_message.setFillColor(sf::Color::Red);
-    death_message.setPosition({700, 200});
+    death_message.setPosition({(conf::window_size_f.x - calculate_string_length("arial", "YOU DIED", 100)) / 2, 200});
     death_message.setCharacterSize(100);
     window.draw(death_message);
 

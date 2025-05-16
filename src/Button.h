@@ -3,8 +3,6 @@
 #include <SFML/Graphics.hpp>
 
 class Button {
-  float char_lengths[128];
-
   sf::Vector2f position;
   sf::Vector2f size;
   std::string text;

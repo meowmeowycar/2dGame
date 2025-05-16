@@ -1,4 +1,3 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include "Archer.h"
@@ -11,6 +10,7 @@
 #include "Entity.h"
 #include "Stalker.h"
 #include "Enemy.h"
+#include "Semi_obstacle.h"
 #include "Sprinter.h"
 #include "../cmake-build-release/_deps/sfml-src/src/SFML/Window/InputImpl.hpp"
 #include "MainMenu.h"
@@ -18,15 +18,15 @@
 #include "PauseMenu.h"
 
 int main() {
-    sf::Clock clock;
-    sf::Time time;
-
     auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Windowed);
 
     if (conf::limit_framerate)
         window.setFramerateLimit(conf::max_framerate);
 
-    Player player(-1000, -100);
+    sf::Clock clock;
+    sf::Time time;
+
+    Player player(-1000, -500 - conf::player_hitbox.y / 2);
 
     if (!player.load_textures()) {
         return -1;
@@ -42,42 +42,34 @@ int main() {
     }
     sf::Sprite background1(background1_textrue);
 
-    std::vector<Obstacle> obstacles;
-    obstacles.push_back(*(new Obstacle(0, 1100, 3000, 2000)));
-    obstacles.push_back(*(new Obstacle(-400, 1200, 3000, 2000)));
+    std::vector<Obstacle*> obstacles;
+    obstacles.push_back(new Obstacle(-400, 1200, 3000, 2000));
+    obstacles.push_back(new Obstacle(0, 1100, 3000, 2000));
+    obstacles.push_back(new Obstacle(-100, -200, 50, 400));
+    obstacles.push_back(new Semi_obstacle(-800, -20, 500, 50));
 
-    if (!obstacles[0].load_texture(conf::wallImage)) {
-        return -1;
-    }
-    if (!obstacles[1].load_texture(conf::wallImage)) {
-        return -1;
-    }
-
-
-    Stalker stalker(-400, -500);
-
-    if (!stalker.load_textures()) {
-        return -1;
+    for (const auto& obstacle : obstacles) {
+        if (!(*obstacle).load_texture()) {
+            return -1;
+        }
     }
 
 
-    Archer archer(-400, -500);
+    std::vector<Enemy*> enemies;
+    enemies.push_back(new Archer(-400, -500));
+    enemies.push_back(new Sprinter(-400, -500));
+    enemies.push_back(new Stalker(-400, -500));
 
-    if (!archer.load_textures()) {
-        return -1;
-    }
-
-
-    Sprinter sprinter(-400, -500);
-
-    if (!sprinter.load_textures()) {
-        return -1;
+    for (const auto& enemy : enemies) {
+        if (!(*enemy).load_textures()) {
+            return -1;
+        }
     }
 
 
     sf::Text test_text(conf::arial);
     test_text.setCharacterSize(100);
-    test_text.setString("9999999999");
+    test_text.setString("          WWW");
 
     sf::Text mouse_pos_x(conf::arial);
     mouse_pos_x.setCharacterSize(100);
@@ -85,7 +77,6 @@ int main() {
 
 
     sf::View player_view({player.getPosition().x, player.getPosition().y - 200}, conf::window_size_f);
-    //window.setView(player_view);
 
     time = clock.restart();
     float actual_dt = conf::dt;
@@ -125,6 +116,7 @@ int main() {
             return 0;
         } else if (menuResult == MainMenu::MENU_PLAY) {
             // Logic
+
             //actual_dt = conf::dt;
 
             processEvents(window);
@@ -133,9 +125,10 @@ int main() {
 
             if (pauseMenuResult == PauseMenu::PAUSE_RESUME) {
                 player.update(obstacles, actual_dt);
-                //stalker.update(player, obstacles, actual_dt);
-                //archer.update(player, obstacles, actual_dt);
-                sprinter.update(player, obstacles, actual_dt);
+
+                for (const auto& enemy : enemies) {
+                    (*enemy).update(player, obstacles, actual_dt);
+                }
 
 
                 std::stringstream ss;
@@ -163,13 +156,15 @@ int main() {
 
             // Player view ----------------------
 
-            obstacles[1].show(window);
-            obstacles[0].show(window);
+            for (const auto& obstacle : obstacles) {
+                (*obstacle).show(window);
+            }
 
-            //stalker.show(window);
-            //archer.show(window);
-            sprinter.show(window);
             player.show(window);
+
+            for (const auto& enemy : enemies) {
+                (*enemy).show(window);
+            }
 
             //-----------------------------------
 
@@ -193,5 +188,12 @@ int main() {
             actual_dt = time.asSeconds();
         }
     }
-}
 
+    for (auto enemy : enemies) {
+        delete enemy;
+    }
+
+    for (auto obstacle : obstacles) {
+        delete obstacle;
+    }
+}

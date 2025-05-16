@@ -16,11 +16,17 @@ namespace conf {
     std::string const optionsMenuBackgroundImage = "../../Media/backgrounds/MenuOptionsBack.png";
     std::string const mainMenuBackgroundImage = "../../Media/backgrounds/MainMenuBack.jpg";
     std::string const playerImage = "../../Media/Ludzik.png";
-    std::string const wallImage = "../../Media/terrain/wall.jpg";
+    std::string const wallImage = "../../Media/terrain/wall3.jpg";
+    std::string const semiWallImage1 = "../../Media/terrain/semi_wall1.png";
+    std::string const semiWallImage2 = "../../Media/terrain/semi_wall2.png";
+    std::string const semiWallImage3 = "../../Media/terrain/semi_wall3.png";
     std::string const healthbarImage1 = "../../Media/HUD/healthbar1.png";
     std::string const healthbarImage2 = "../../Media/HUD/healthbar2.png";
     std::string const healthbarImage3 = "../../Media/HUD/healthbar3.png";
     std::string const arrowImage = playerImage;
+    std::string const stalkerImage = playerImage;
+    std::string const archerImage = playerImage;
+    std::string const sprinterImage = playerImage;
 
     // fonts
     sf::Font const arial("../../Media/fonts/arial/arial.ttf");
@@ -28,6 +34,8 @@ namespace conf {
     // Player configuration
     sf::Vector2f const player_hitbox = {42, 72};
     sf::Vector2f const player_sliding_hitbox = {42, 30};
+    float const jump_strength = 900;
+    float const player_speed = 200;
 
     // Enemies configuration
     float const vision_distance = 500;
@@ -40,7 +48,7 @@ namespace conf {
     // Archer configuration
     sf::Vector2f const archer_hitbox = {50, 100};
     float const archer_damage = 10;
-    sf::Vector2f const arrow_hitbox = {50, 20};
+    sf::Vector2f const arrow_hitbox = {20, 20};
     float const arrow_speed = 1000;
 
     // Sprinter configuration
@@ -58,5 +66,5 @@ namespace conf {
     bool const show_pausemenu = false;
 
     // Physics configuration
-    float const gravity_force = 980.0f * 144;
+    float const gravity_force = 9.8f * 200;
 }

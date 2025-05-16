@@ -1,9 +1,10 @@
 #include "Obstacle.h"
 #include "ImageDisplay.h"
 #include "configuration.h"
+#include "Entity.h"
 
-Obstacle::Obstacle(float width, float height) : position(0, 0), size({width, height}) {}
-Obstacle::Obstacle(float x, float y, float width, float height) : position(x, y), size(width, height) {}
+Obstacle::Obstacle(float x, float y, float width, float height) : position(x, y), size(width, height), type("normal") {}
+Obstacle::Obstacle(float width, float height) : Obstacle(0, 0, width, height) {}
 
 sf::Vector2f Obstacle::getPosition() {
   return position;
@@ -13,8 +14,12 @@ sf::Vector2f Obstacle::getSize() {
   return size;
 }
 
-bool Obstacle::load_texture(std::string texturePath) {
-  if (!Obrazek(texturePath, obstacle_texture)) {
+std::string Obstacle::getType() {
+  return type;
+}
+
+bool Obstacle::load_texture() {
+  if (!Obrazek(conf::wallImage, obstacle_texture)) {
     return false;
   }
 
@@ -35,11 +40,13 @@ void Obstacle::show(sf::RenderWindow& window) {
 }
 
 void Obstacle::draw_hitbox(sf::RenderWindow& window) {
-  sf::RectangleShape hitbox_shape({size.x - 2, size.y - 2});
-  hitbox_shape.setPosition(position);
-  hitbox_shape.setOrigin({size.x / 2, size.y / 2});
-  hitbox_shape.setFillColor(sf::Color::Transparent);
-  hitbox_shape.setOutlineColor(sf::Color::Blue);
-  hitbox_shape.setOutlineThickness(1);
-  window.draw(hitbox_shape);
+  if (Entity::drawing_hitboxes()) {
+    sf::RectangleShape hitbox_shape({size.x - 2, size.y - 2});
+    hitbox_shape.setPosition(position);
+    hitbox_shape.setOrigin({size.x / 2, size.y / 2});
+    hitbox_shape.setFillColor(sf::Color::Transparent);
+    hitbox_shape.setOutlineColor(sf::Color::Blue);
+    hitbox_shape.setOutlineThickness(1);
+    window.draw(hitbox_shape);
+  }
 }

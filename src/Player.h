@@ -21,7 +21,8 @@ public:
 
     bool attack();
 
-    void update(std::vector<Obstacle>& obstacles, float dt);
+    bool load_textures() override;
+    void update(std::vector<Obstacle*>& obstacles, float dt);
     void reduce_health(float damage);
     void respawn();
 

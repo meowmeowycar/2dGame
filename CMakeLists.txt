@@ -21,7 +21,6 @@ add_executable(main
         src/Player.cpp
         src/Player.h
         src/configuration.h
-        src/functions.cpp
         src/functions.h
         src/FPS.cpp
         src/FPS.h
@@ -41,12 +40,17 @@ add_executable(main
         src/Sprinter.h
         src/Button.cpp
         src/Button.h
+        src/char_lengths.h
         src/MainMenu.cpp
         src/MainMenu.h
         src/OptionsMenu.cpp
         src/OptionsMenu.h
         src/PauseMenu.cpp
         src/PauseMenu.h
+        src/Semi_obstacle.cpp
+        src/Semi_obstacle.h
+        src/Arrow.cpp
+        src/Arrow.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)

@@ -14,15 +14,15 @@ Entity::Entity(float x, float y, float width, float height) : position(x, y), ve
 Entity::Entity(float width, float height) : Entity(0, 0, width, height) {}
 
 bool Entity::load_textures() {
-  if (!Obrazek(conf::playerImage, entity_texture)) {
-    return false;
-  }
-
   return true;
 }
 
 sf::Vector2f Entity::getPosition() {
   return position;
+}
+
+bool Entity::drawing_hitboxes() {
+  return draw_hitboxes;
 }
 
 void Entity::show(sf::RenderWindow& window) {
@@ -40,20 +40,13 @@ void Entity::move(sf::Vector2f step) {
   position.x += step.x;
   position.y += step.y;
 }
-void Entity::update(std::vector<Obstacle>& obstacles, float dt) {
-  velocity.x += force.x * dt * dt;
+void Entity::update(std::vector<Obstacle*>& obstacles, float dt) {
+  velocity.x += force.x * dt;
 
   if (gravity_enabled) {
-    velocity.y += (force.y + conf::gravity_force) * dt * dt;
+    velocity.y += (force.y + conf::gravity_force) * dt;
   } else {
-    velocity.y += force.y * dt * dt;
-  }
-
-  float floorLevel = 1080 - hitbox.y / 2;
-
-  if (position.y >= floorLevel) {
-    //position.y = floorLevel;
-    //velocity.y = 0;
+    velocity.y += force.y * dt;
   }
 
   sf::Vector2f step = {0, 0};
@@ -82,21 +75,36 @@ void Entity::update(std::vector<Obstacle>& obstacles, float dt) {
     bool collided_x = false;
     bool collided_y = false;
     for (int i = 0; i < obstacles.size(); i++) {
-      sf::Vector2f distance = {obstacles[i].getPosition().x - position.x, obstacles[i].getPosition().y - position.y};
-      if ((abs(distance.x - step.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
-        collided_x = true;
-        velocity.x = 0;
-        step.x = 0;
-      }
-      if ((abs(distance.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0) {
-        collided_y = true;
-        velocity.y = 0;
-        step.y = 0;
-      }
-      if ((abs(distance.x - step.x) - hitbox.x / 2 - obstacles[i].getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - obstacles[i].getSize().y / 2) < 0 && !collided_x) {
-        collided_y = true;
-        velocity.y = 0;
-        step.y = 0;
+      sf::Vector2f distance = {(*obstacles[i]).getPosition().x - position.x, (*obstacles[i]).getPosition().y - position.y};
+
+      if ((*obstacles[i]).getType() == "semi") {
+        if (sign(step.y) == 1 && !((abs(distance.x) - hitbox.x / 2 - (*obstacles[i]).getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - (*obstacles[i]).getSize().y / 2) < 0)) {
+          if ((abs(distance.x) - hitbox.x / 2 - (*obstacles[i]).getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - (*obstacles[i]).getSize().y / 2) < 0) {
+            collided_y = true;
+            velocity.y = 0;
+            step.y = 0;
+          }
+          if ((abs(distance.x - step.x) - hitbox.x / 2 - (*obstacles[i]).getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - (*obstacles[i]).getSize().y / 2) < 0 && !collided_x) {
+            collided_y = true;
+            step.y = 0;
+          }
+        }
+      } else if ((*obstacles[i]).getType() == "normal") {
+        if ((abs(distance.x - step.x) - hitbox.x / 2 - (*obstacles[i]).getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - (*obstacles[i]).getSize().y / 2) < 0) {
+          collided_x = true;
+          velocity.x = 0;
+          step.x = 0;
+        }
+        if ((abs(distance.x) - hitbox.x / 2 - (*obstacles[i]).getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - (*obstacles[i]).getSize().y / 2) < 0) {
+          collided_y = true;
+          velocity.y = 0;
+          step.y = 0;
+        }
+        if ((abs(distance.x - step.x) - hitbox.x / 2 - (*obstacles[i]).getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - (*obstacles[i]).getSize().y / 2) < 0 && !collided_x) {
+          collided_y = true;
+          velocity.y = 0;
+          step.y = 0;
+        }
       }
     }
 
@@ -109,6 +117,17 @@ void Entity::update(std::vector<Obstacle>& obstacles, float dt) {
 
     move(step_copy);
   }
+
+  /*
+    velocity.x += force.x * dt / 2;
+
+    if (gravity_enabled) {
+      velocity.y += (force.y + conf::gravity_force) * dt / 2;
+    } else {
+      velocity.y += force.y * dt / 2;
+    }
+  */
+
 
 }
 
