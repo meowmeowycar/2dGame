@@ -41,12 +41,12 @@ void Entity::move(sf::Vector2f step) {
   position.y += step.y;
 }
 void Entity::update(std::vector<Obstacle*>& obstacles, float dt) {
-  velocity.x += force.x * dt * dt;
+  velocity.x += force.x * dt;
 
   if (gravity_enabled) {
-    velocity.y += (force.y + conf::gravity_force) * dt * dt;
+    velocity.y += (force.y + conf::gravity_force) * dt;
   } else {
-    velocity.y += force.y * dt * dt;
+    velocity.y += force.y * dt;
   }
 
   sf::Vector2f step = {0, 0};
@@ -117,6 +117,17 @@ void Entity::update(std::vector<Obstacle*>& obstacles, float dt) {
 
     move(step_copy);
   }
+
+  /*
+    velocity.x += force.x * dt / 2;
+
+    if (gravity_enabled) {
+      velocity.y += (force.y + conf::gravity_force) * dt / 2;
+    } else {
+      velocity.y += force.y * dt / 2;
+    }
+  */
+
 
 }
 

@@ -16,7 +16,7 @@ namespace conf {
     std::string const optionsMenuBackgroundImage = "../../Media/backgrounds/MenuOptionsBack.png";
     std::string const mainMenuBackgroundImage = "../../Media/backgrounds/MainMenuBack.jpg";
     std::string const playerImage = "../../Media/Ludzik.png";
-    std::string const wallImage = "../../Media/terrain/wall.jpg";
+    std::string const wallImage = "../../Media/terrain/wall3.jpg";
     std::string const semiWallImage1 = "../../Media/terrain/semi_wall1.png";
     std::string const semiWallImage2 = "../../Media/terrain/semi_wall2.png";
     std::string const semiWallImage3 = "../../Media/terrain/semi_wall3.png";
@@ -34,7 +34,7 @@ namespace conf {
     // Player configuration
     sf::Vector2f const player_hitbox = {42, 72};
     sf::Vector2f const player_sliding_hitbox = {42, 30};
-    float const jump_strength = 600;
+    float const jump_strength = 900;
     float const player_speed = 200;
 
     // Enemies configuration
@@ -66,5 +66,5 @@ namespace conf {
     bool const show_pausemenu = false;
 
     // Physics configuration
-    float const gravity_force = 980.0f * 144;
+    float const gravity_force = 9.8f * 200;
 }

@@ -26,7 +26,7 @@ int main() {
     sf::Clock clock;
     sf::Time time;
 
-    Player player(-1000, 100 - conf::player_hitbox.y / 2);
+    Player player(-1000, -500 - conf::player_hitbox.y / 2);
 
     if (!player.load_textures()) {
         return -1;
@@ -45,7 +45,7 @@ int main() {
     std::vector<Obstacle*> obstacles;
     obstacles.push_back(new Obstacle(-400, 1200, 3000, 2000));
     obstacles.push_back(new Obstacle(0, 1100, 3000, 2000));
-    obstacles.push_back(new Obstacle(-100, -100, 50, 400));
+    obstacles.push_back(new Obstacle(-100, -200, 50, 400));
     obstacles.push_back(new Semi_obstacle(-800, -20, 500, 50));
 
     for (const auto& obstacle : obstacles) {
