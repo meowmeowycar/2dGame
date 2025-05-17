@@ -29,6 +29,7 @@ public:
   bool load_textures() override;
   void update(Player& player, std::vector<Obstacle*>& obstacles, float dt) override;
   void show(sf::RenderWindow& window) override;
+  void setTextures(sf::Texture& stay_texture, sf::Texture& run_texture);
 
   void update_state();
 };

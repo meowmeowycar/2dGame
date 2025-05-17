@@ -114,3 +114,8 @@ void Sprinter::show(sf::RenderWindow& window) {
     draw_hitbox(window);
   }
 }
+
+void Sprinter::setTextures(sf::Texture& stay_texture, sf::Texture& run_texture) {
+  this->stay_texture = stay_texture;
+  this->run_texture = run_texture;
+}

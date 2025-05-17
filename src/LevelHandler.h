@@ -12,7 +12,8 @@ class LevelHandler {
     static sf::Texture stalker_texture;
     static sf::Texture archer_texture;
     static sf::Texture arrow_texture;
-    static sf::Texture sprinter_texture;
+    static sf::Texture sprinter_stay_texture;
+    static sf::Texture sprinter_run_texture;
 
     static sf::Texture obstacle_texture;
     static sf::Texture semi_obstacle_left_texture;
