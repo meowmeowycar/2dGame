@@ -4,6 +4,8 @@
 
 class Enemy : public Entity {
 protected:
+    std::string type;
+
     float max_health;
     float health;
 
@@ -18,6 +20,7 @@ public:
     Enemy(float width, float height);
 
     float getHealth();
+    std::string getType();
     void reduce_health(float damage);
 
     virtual void update(Player& player, std::vector<Obstacle*>& obstacles, float dt);

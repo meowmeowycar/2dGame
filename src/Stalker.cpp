@@ -3,8 +3,9 @@
 #include "functions.h"
 #include "ImageDisplay.h"
 
-Stalker::Stalker(float x, float y) : Enemy(x, y, conf::stalker_hitbox.x, conf::stalker_hitbox.y), is_touching_player(false) {}
-
+Stalker::Stalker(float x, float y) : Enemy(x, y, conf::stalker_hitbox.x, conf::stalker_hitbox.y), is_touching_player(false) {
+  type = "stalker";
+}
 Stalker::Stalker() : Stalker(0, 0) {}
 
 bool Stalker::load_textures() {
@@ -44,7 +45,6 @@ void Stalker::check_touching(Player& player) {
 void Stalker::move_to_player(Player& player) {
   if (!is_touching_player) {
     velocity.x = sign(player.getPosition().x - position.x) * 150;
-
   } else
     velocity.x = 0;
 }

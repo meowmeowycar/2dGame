@@ -5,6 +5,7 @@ class Sprinter : public Enemy {
   bool charging;
   bool dashing;
   float dash_starting_position;
+  float dash_target_position;
 
   bool attacked_player;
 

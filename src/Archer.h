@@ -18,4 +18,6 @@ public:
   void shoot(Player& player);
   bool load_textures() override;
   void show(sf::RenderWindow& window) override;
+
+  void setArrowTexture(sf::Texture texture);
 };

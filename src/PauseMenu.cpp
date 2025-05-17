@@ -6,11 +6,15 @@
 #include "Button.h"
 #include <SFML/Graphics.hpp>
 
+#include "LevelHandler.h"
+
 bool PauseMenu::show_pausemenu = false;
 
-Button PauseMenu::resumeButton(conf::window_size_f.x / 2.0f, conf::window_size_f.y / 2.0f - 50, 300, 80, "RESUME");
+Button PauseMenu::resumeButton(conf::window_size_f.x / 2.0f, conf::window_size_f.y / 2.0f - 100, 400, 80, "RESUME");
 
-Button PauseMenu::backButton(conf::window_size_f.x / 2.0f, conf::window_size_f.y / 2.0f + 50, 300, 80, "MAIN MENU");
+Button PauseMenu::restartButton(conf::window_size_f.x / 2.0f, conf::window_size_f.y / 2.0f, 400, 80, "RESTART LEVEL");
+
+Button PauseMenu::backButton(conf::window_size_f.x / 2.0f, conf::window_size_f.y / 2.0f + 100, 400, 80, "MAIN MENU");
 
 
 void PauseMenu::display_pausemenu(sf::RenderWindow& window) {
@@ -21,6 +25,10 @@ void PauseMenu::display_pausemenu(sf::RenderWindow& window) {
     resumeButton.setTextColor(sf::Color::White);
     resumeButton.setTextSize(40);
 
+    restartButton.setColor(sf::Color(70, 70, 70, 200));
+    restartButton.setTextColor(sf::Color::White);
+    restartButton.setTextSize(40);
+
     backButton.setColor(sf::Color(70, 70, 70, 200));
     backButton.setTextColor(sf::Color::White);
     backButton.setTextSize(40);
@@ -30,15 +38,23 @@ void PauseMenu::display_pausemenu(sf::RenderWindow& window) {
     window.draw(grey_screen);
 
     resumeButton.update(window);
+    restartButton.update(window);
     backButton.update(window);
 
     resumeButton.show(window);
+    restartButton.show(window);
     backButton.show(window);
 }
 int PauseMenu::handlePauseMenuSelection() {
     if (show_pausemenu) {
         if (resumeButton.isReleased()) {
             show_pausemenu = false;
+            return PAUSE_RESUME;
+        }
+
+        if (restartButton.isReleased()) {
+            show_pausemenu = false;
+            LevelHandler::load_level();
             return PAUSE_RESUME;
         }
 

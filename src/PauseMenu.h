@@ -7,6 +7,7 @@ class PauseMenu {
 private:
     static bool show_pausemenu;
     static Button resumeButton;
+    static Button restartButton;
     static Button backButton;
 
 public:

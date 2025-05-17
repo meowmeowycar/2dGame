@@ -6,13 +6,18 @@
 #include <iostream>
 
 
-Enemy::Enemy(float x, float y, float width, float height) : Entity(x, y, width, height), see_player(false), vision_direction(-1), max_health(35), health(max_health) {}
+
+Enemy::Enemy(float x, float y, float width, float height) : Entity(x, y, width, height), see_player(false), vision_direction(-1), max_health(35), health(max_health), type("none") {}
 
 Enemy::Enemy(float width, float height) : Enemy(0, 0, width, height) {}
 
 
 float Enemy::getHealth() {
   return health;
+}
+
+std::string Enemy::getType() {
+  return type;
 }
 
 void Enemy::reduce_health(float damage) {

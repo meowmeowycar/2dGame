@@ -1,3 +1,5 @@
+#include <cmath>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include "Archer.h"
@@ -10,6 +12,7 @@
 #include "Entity.h"
 #include "Stalker.h"
 #include "Enemy.h"
+#include "LevelHandler.h"
 #include "Semi_obstacle.h"
 #include "Sprinter.h"
 #include "../cmake-build-release/_deps/sfml-src/src/SFML/Window/InputImpl.hpp"
@@ -18,7 +21,9 @@
 #include "PauseMenu.h"
 
 int main() {
-    auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Windowed);
+    auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Fullscreen);
+
+    window.setMouseCursorVisible(false);
 
     if (conf::limit_framerate)
         window.setFramerateLimit(conf::max_framerate);
@@ -26,7 +31,14 @@ int main() {
     sf::Clock clock;
     sf::Time time;
 
-    Player player(-1000, -500 - conf::player_hitbox.y / 2);
+    sf::Texture cursor_texture;
+    if (!Obrazek(conf::cursorImage, cursor_texture))
+        return -1;
+    sf::Sprite cursor(cursor_texture);
+    float cursor_scale = 0.15;
+    cursor.setScale({cursor_scale, cursor_scale});
+
+    Player player(0, -conf::player_hitbox.y / 2);
 
     if (!player.load_textures()) {
         return -1;
@@ -42,29 +54,14 @@ int main() {
     }
     sf::Sprite background1(background1_textrue);
 
-    std::vector<Obstacle*> obstacles;
-    obstacles.push_back(new Obstacle(-400, 1200, 3000, 2000));
-    obstacles.push_back(new Obstacle(0, 1100, 3000, 2000));
-    obstacles.push_back(new Obstacle(-100, -200, 50, 400));
-    obstacles.push_back(new Semi_obstacle(-800, -20, 500, 50));
 
-    for (const auto& obstacle : obstacles) {
-        if (!(*obstacle).load_texture()) {
-            return -1;
-        }
+    if (!LevelHandler::load_textures()) {
+        return -1;
     }
 
-
-    std::vector<Enemy*> enemies;
-    enemies.push_back(new Archer(-400, -500));
-    enemies.push_back(new Sprinter(-400, -500));
-    enemies.push_back(new Stalker(-400, -500));
-
-    for (const auto& enemy : enemies) {
-        if (!(*enemy).load_textures()) {
-            return -1;
-        }
-    }
+    LevelHandler::reference_player(player);
+    //LevelHandler::change_level(1);
+    LevelHandler::load_level();
 
 
     sf::Text test_text(conf::arial);
@@ -90,8 +87,43 @@ int main() {
     int menuResult = MainMenu::MENU_NONE;
     int pauseMenuResult = PauseMenu::PAUSE_RESUME;
 
+    float clicked = false;
+
     while (window.isOpen()) {
         processEvents(window);
+
+        if (conf::edit_mode_enabled) {
+
+            float x1, y1;
+
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                x1 = sf::priv::InputImpl::getMousePosition().x - conf::window_size_f.x / 2 + player.getPosition().x;
+                y1 = sf::priv::InputImpl::getMousePosition().y - (conf::window_size_f.y / 2 + 200) + player.getPosition().y;
+            }
+
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+            {
+                float x2, y2;
+                x2 = sf::priv::InputImpl::getMousePosition().x - conf::window_size_f.x / 2 + player.getPosition().x;
+                y2 = sf::priv::InputImpl::getMousePosition().y - (conf::window_size_f.y / 2 + 200) + player.getPosition().y;
+
+                x1 = round(x1 / 25) * 25;
+                y1 = round(y1 / 25) * 25;
+                x2 = round(x2 / 25) * 25;
+                y2 = round(y2 / 25) * 25;
+
+                if (!clicked) {
+                    std::cout<<"    obstacles.push_back(new Obstacle("<<x1<<", "<<y1<<", "<<x2<<", "<<y2<<"));"<<std::endl;
+                    LevelHandler::addObstacle(x1, y1, x2, y2);
+                }
+                clicked = true;
+            } else
+                clicked = false;
+        }
+
+        sf::Vector2f mouse_position = static_cast<sf::Vector2f>(sf::priv::InputImpl::getMousePosition());
+        cursor.setPosition(sf::Vector2f(mouse_position.x - 60 * cursor_scale, mouse_position.y - 1));
 
         if (menuResult == MainMenu::MENU_NONE) {
             mainMenu.update(window);
@@ -99,6 +131,7 @@ int main() {
 
             window.clear();
             mainMenu.show(window);
+            window.draw(cursor);
             window.display();
         } else if (menuResult == MainMenu::MENU_OPTIONS) {
             optionsMenu.update(window);
@@ -110,6 +143,7 @@ int main() {
 
             window.clear();
             optionsMenu.show(window);
+            window.draw(cursor);
             window.display();
         } else if (menuResult == MainMenu::MENU_EXIT) {
             window.close();
@@ -117,19 +151,14 @@ int main() {
         } else if (menuResult == MainMenu::MENU_PLAY) {
             // Logic
 
-            //actual_dt = conf::dt;
-
             processEvents(window);
 
             pauseMenuResult = PauseMenu::handlePauseMenuSelection();
 
             if (pauseMenuResult == PauseMenu::PAUSE_RESUME) {
-                player.update(obstacles, actual_dt);
+                player.update(LevelHandler::getObstacles(), actual_dt);
 
-                for (const auto& enemy : enemies) {
-                    (*enemy).update(player, obstacles, actual_dt);
-                }
-
+                LevelHandler::update(player, LevelHandler::getObstacles(), actual_dt);
 
                 std::stringstream ss;
                 ss<<sf::priv::InputImpl::getMousePosition().x - 10;
@@ -156,15 +185,9 @@ int main() {
 
             // Player view ----------------------
 
-            for (const auto& obstacle : obstacles) {
-                (*obstacle).show(window);
-            }
-
             player.show(window);
 
-            for (const auto& enemy : enemies) {
-                (*enemy).show(window);
-            }
+            LevelHandler::show(window);
 
             //-----------------------------------
 
@@ -180,20 +203,16 @@ int main() {
             //window.draw(test_text);
             //window.draw(mouse_pos_x);
 
+            window.draw(cursor);
+
             //-----------------------------------
 
             window.display();
-
-            time = clock.restart();
-            actual_dt = time.asSeconds();
         }
+
+        time = clock.restart();
+        actual_dt = time.asSeconds();
     }
 
-    for (auto enemy : enemies) {
-        delete enemy;
-    }
-
-    for (auto obstacle : obstacles) {
-        delete obstacle;
-    }
+    LevelHandler::unload();
 }

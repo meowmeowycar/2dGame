@@ -4,7 +4,9 @@
 #include "ImageDisplay.h"
 
 
-Sprinter::Sprinter(float x, float y) : Enemy(x, y, conf::sprinter_hitbox.x, conf::sprinter_hitbox.y), charging(false), dashing(false), dash_starting_position(0), attacked_player(false) {}
+Sprinter::Sprinter(float x, float y) : Enemy(x, y, conf::sprinter_hitbox.x, conf::sprinter_hitbox.y), charging(false), dashing(false), dash_starting_position(0), attacked_player(false) {
+  type = "sprinter";
+}
 
 Sprinter::Sprinter() : Sprinter(0, 0) {}
 
@@ -63,12 +65,16 @@ void Sprinter::update(Player& player, std::vector<Obstacle*>& obstacles, float d
     charging = false;
     dashing = true;
     gravity(false);
-    velocity.x = 5000 * vision_direction;
+    dash_target_position = position.x + vision_direction * conf::dash_distance;
+    velocity.x = 2000 * vision_direction;
   }
 
+  if (dashing)
+    turn_delay.restart();
+
   if(dashing && (abs(position.x - dash_starting_position) > conf::dash_distance || velocity.x == 0)) {
-    if (velocity.x != 0) {
-      position.x = dash_starting_position + conf::dash_distance * vision_direction;
+    if (abs(position.x - dash_starting_position) > conf::dash_distance) {
+      position.x = dash_target_position;
       velocity.x = 0;
     }
     dashing = false;

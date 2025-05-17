@@ -10,4 +10,6 @@ public:
 
   bool load_texture() override;
   void show(sf::RenderWindow& window) override;
+
+  void setTextures(sf::Texture& left_texture, sf::Texture& middle_texture, sf::Texture& right_texture);
 };

@@ -51,6 +51,9 @@ add_executable(main
         src/Semi_obstacle.h
         src/Arrow.cpp
         src/Arrow.h
+        src/LevelHandler.cpp
+        src/LevelHandler.h
+        src/levels.cpp
         src/Sword.cpp
         src/Sword.h
 )

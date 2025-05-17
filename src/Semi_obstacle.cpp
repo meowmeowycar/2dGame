@@ -2,11 +2,11 @@
 #include "configuration.h"
 #include "ImageDisplay.h"
 
-Semi_obstacle::Semi_obstacle(float x, float y, float width, float height) : Obstacle(x, y, width, height) {
+Semi_obstacle::Semi_obstacle(float x1, float y1, float x2, float y2) : Obstacle(x1, y1, x2, y2) {
     type = "semi";
 }
 
-Semi_obstacle::Semi_obstacle(float width, float height) : Semi_obstacle(0, 0, width, height) {}
+Semi_obstacle::Semi_obstacle(float width, float height) : Semi_obstacle(-width / 2, -height / 2, width / 2, height / 2) {}
 
 bool Semi_obstacle::load_texture() {
     if (!Obrazek(conf::semiWallImage1, obstacle_left_texture)) {
@@ -23,6 +23,13 @@ bool Semi_obstacle::load_texture() {
 
     return true;
 }
+
+void Semi_obstacle::setTextures(sf::Texture& left_texture, sf::Texture& middle_texture, sf::Texture& right_texture) {
+    this->obstacle_left_texture = left_texture;
+    this->obstacle_texture = middle_texture;
+    this->obstacle_right_texture = right_texture;
+}
+
 
 void Semi_obstacle::show(sf::RenderWindow &window) {
     float obstacle_scale = size.y / obstacle_left_texture.getSize().y;
