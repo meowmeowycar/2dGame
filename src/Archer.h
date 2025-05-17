@@ -8,6 +8,8 @@ class Archer : public Enemy {
 
   sf::Texture arrow_texture;
   std::vector<Arrow> arrows;
+
+  float s;
 public:
   Archer(float x, float y);
   Archer();

@@ -3,8 +3,11 @@
 #include "Obstacle.h"
 #include <vector>
 #include "Entity.h"
+#include "Sword.h"
 
 class Player : public Entity {
+    Sword sword;
+
     float health;
     bool sliding;
 
@@ -30,4 +33,8 @@ public:
     void setHealth(float new_health);
     bool isDead();
     short getAttackDirection();
+    void show(sf::RenderWindow& window);
+
+    void swordAttack();
+    Sword& getSword();
 };

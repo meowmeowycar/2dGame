@@ -170,3 +170,4 @@ sf::Vector2f Entity::getHitbox() {
 void Entity::toogle_hitboxes() {
   draw_hitboxes = !draw_hitboxes;
 }
+

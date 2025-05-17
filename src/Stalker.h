@@ -14,4 +14,5 @@ public:
     void check_touching(Player& player);
     void move_to_player(Player& player);
     void attack(Player& player);
+    void show(sf::RenderWindow& window) override;
 };
