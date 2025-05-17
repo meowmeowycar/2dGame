@@ -40,4 +40,5 @@ public:
     void gravity(bool enabled);
     static void toogle_hitboxes();
     static bool drawing_hitboxes();
+
 };

@@ -9,7 +9,7 @@
 #include "HUD.h"
 
 
-Player::Player(float x, float y) : Entity(x, y, conf::player_hitbox.x, conf::player_hitbox.y), health(100), dead(false), hit(false), attack_direction(1){
+Player::Player(float x, float y) : Entity(x, y, conf::player_hitbox.x, conf::player_hitbox.y), health(100), dead(false), hit(false), attack_direction(1) {
 }
 
 Player::Player() : Player(0, 0) {}
@@ -139,5 +139,40 @@ void Player::update(std::vector<Obstacle*>& obstacles, float dt) {
     }
   }
 
+  if (isKeyPressed(sf::Keyboard::Key::H)) {
+    sword.startAttack();
+  }
+
+  sword.update(dt, position, attack_direction);
+
   Entity::update(obstacles, dt);
+}
+void Player::show(sf::RenderWindow& window) {
+  sf::Sprite entity_sprite(entity_texture);
+
+  entity_sprite.setPosition(position);
+
+  entity_sprite.setOrigin({(float)entity_texture.getSize().x / 2, (float)entity_texture.getSize().y / 2});
+
+  float scale_x = hitbox.x / entity_texture.getSize().x;
+  float scale_y = hitbox.y / entity_texture.getSize().y;
+  entity_sprite.setScale({scale_x * -attack_direction, scale_y});
+
+  entity_sprite.setRotation(sf::radians(rotation));
+
+  window.draw(entity_sprite);
+
+  sword.draw(window);
+
+  if (draw_hitboxes) {
+    draw_hitbox(window);
+  }
+}
+
+void Player::swordAttack() {
+  sword.startAttack();
+}
+
+Sword& Player::getSword() {
+  return sword;
 }

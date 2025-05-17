@@ -8,11 +8,26 @@ class Sprinter : public Enemy {
 
   bool attacked_player;
 
+  sf::Texture stay_texture;
+  sf::Texture run_texture;
+
   sf::Clock charge_time;
+
+  enum  class State{
+    IDLE,
+    RUNNING
+
+  };
+
+  State current_state;
+
 public:
   Sprinter(float x, float y);
   Sprinter();
 
   bool load_textures() override;
   void update(Player& player, std::vector<Obstacle*>& obstacles, float dt) override;
+  void show(sf::RenderWindow& window) override;
+
+  void update_state();
 };

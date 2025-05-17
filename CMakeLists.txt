@@ -51,6 +51,8 @@ add_executable(main
         src/Semi_obstacle.h
         src/Arrow.cpp
         src/Arrow.h
+        src/Sword.cpp
+        src/Sword.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)

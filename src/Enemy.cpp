@@ -2,6 +2,8 @@
 #include "configuration.h"
 #include <SFML/Graphics.hpp>
 #include "functions.h"
+#include "Sword.h"
+#include <iostream>
 
 
 Enemy::Enemy(float x, float y, float width, float height) : Entity(x, y, width, height), see_player(false), vision_direction(-1), max_health(35), health(max_health) {}
@@ -15,6 +17,7 @@ float Enemy::getHealth() {
 
 void Enemy::reduce_health(float damage) {
   health -= damage;
+  hit_effect_delay.restart();
 }
 
 void Enemy::update(Player& player, std::vector<Obstacle*>& obstacles, float dt) {
@@ -28,10 +31,37 @@ void Enemy::update(Player& player, std::vector<Obstacle*>& obstacles, float dt) 
     hitbox_color = sf::Color::Yellow;
   }
 
-  bool in_range = abs(player.getPosition().x - position.x) <= conf::player_hitbox.x / 2 + hitbox.x / 2 + 100 && abs(player.getPosition().y - position.y) <= conf::player_hitbox.y / 6 + hitbox.y / 2;
+  if (hit_effect_delay.getElapsedTime().asSeconds() < 0.2f) {
+    hitbox_color = sf::Color::Red;
+  }
 
-  if (player.attack() && sign(position.x - player.getPosition().x) == player.getAttackDirection() && in_range) {
-    reduce_health(10);
+  Sword& sword = player.getSword();
+
+  static sf::Clock damage_cooldown;
+
+
+  if (sword.isActive()) {
+
+    sf::Vector2f sword_pos = sword.getPosition();
+
+    float dist_x = abs(sword_pos.x - position.x);
+    float dist_y = abs(sword_pos.y - position.y);
+
+    float max_dist_x = (sword.getSize().x + hitbox.x) / 2.0f;
+    float max_dist_y = (sword.getSize().y + hitbox.y) / 2.0f;
+
+    if (dist_x <= max_dist_x && dist_y <= max_dist_y) {
+      bool correct_direction = (sword.getAttackDirection() == sign(position.x - player.getPosition().x));
+
+      if (correct_direction && damage_cooldown.getElapsedTime().asSeconds() >= 0.5f) {
+        reduce_health(sword.getDamage());
+
+        std::cout << "Health: " << health;
+
+        damage_cooldown.restart();
+
+      }
+    }
   }
 }
 

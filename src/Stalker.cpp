@@ -3,9 +3,8 @@
 #include "functions.h"
 #include "ImageDisplay.h"
 
-Stalker::Stalker(float x, float y) : Enemy(x, y, conf::stalker_hitbox.x, conf::stalker_hitbox.y), is_touching_player(false) {
-  vision_direction = -1;
-}
+Stalker::Stalker(float x, float y) : Enemy(x, y, conf::stalker_hitbox.x, conf::stalker_hitbox.y), is_touching_player(false) {}
+
 Stalker::Stalker() : Stalker(0, 0) {}
 
 bool Stalker::load_textures() {
@@ -45,10 +44,32 @@ void Stalker::check_touching(Player& player) {
 void Stalker::move_to_player(Player& player) {
   if (!is_touching_player) {
     velocity.x = sign(player.getPosition().x - position.x) * 150;
+
   } else
     velocity.x = 0;
 }
 
 void Stalker::attack(Player& player) {
   player.reduce_health(conf::stalker_damage);
+}
+
+void Stalker::show(sf::RenderWindow& window) {
+  sf::Sprite entity_sprite(entity_texture);
+
+  entity_sprite.setPosition(position);
+
+  entity_sprite.setOrigin({(float)entity_texture.getSize().x / 2, (float)entity_texture.getSize().y / 2});
+
+  float scale_x = hitbox.x / entity_texture.getSize().x;
+  float scale_y = hitbox.y / entity_texture.getSize().y;
+
+  entity_sprite.setScale({scale_x * -vision_direction, scale_y});
+
+  entity_sprite.setRotation(sf::radians(rotation));
+
+  window.draw(entity_sprite);
+
+  if (draw_hitboxes) {
+    draw_hitbox(window);
+  }
 }

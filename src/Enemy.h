@@ -11,6 +11,7 @@ protected:
     short vision_direction;
 
     sf::Clock turn_delay;
+    sf::Clock hit_effect_delay;
 
 public:
     Enemy(float x, float y, float width, float height);
