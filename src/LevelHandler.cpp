@@ -5,6 +5,7 @@
 #include "Archer.h"
 #include "ImageDisplay.h"
 #include "Semi_obstacle.h"
+#include "Sprinter.h"
 
 unsigned int LevelHandler::level = 0;
 
@@ -16,7 +17,8 @@ std::vector<Enemy*> LevelHandler::enemies;
 sf::Texture LevelHandler::stalker_texture;
 sf::Texture LevelHandler::archer_texture;
 sf::Texture LevelHandler::arrow_texture;
-sf::Texture LevelHandler::sprinter_texture;
+sf::Texture LevelHandler::sprinter_stay_texture;
+sf::Texture LevelHandler::sprinter_run_texture;
 
 sf::Texture LevelHandler::obstacle_texture;
 sf::Texture LevelHandler::semi_obstacle_left_texture;
@@ -38,7 +40,10 @@ bool LevelHandler::load_textures() {
     if (!Obrazek(conf::arrowImage, arrow_texture)) {
         return false;
     }
-    if (!Obrazek(conf::sprinterImage, sprinter_texture)) {
+    if (!Obrazek(conf::sprinterImage, sprinter_stay_texture)) {
+        return false;
+    }
+    if (!Obrazek(conf::sprinterImage2, sprinter_run_texture)) {
         return false;
     }
 
@@ -89,7 +94,7 @@ void LevelHandler::load_level() {
             (*enemy).setTexture(archer_texture);
             (*dynamic_cast<Archer*>(enemy)).setArrowTexture(arrow_texture);
         } else if ((*enemy).getType() == "sprinter") {
-            (*enemy).setTexture(sprinter_texture);
+            (*dynamic_cast<Sprinter*>(enemy)).setTextures(sprinter_stay_texture, sprinter_run_texture);
         }
     }
 }
