@@ -9,7 +9,7 @@
 #include "HUD.h"
 
 
-Player::Player(float x, float y) : Entity(x, y, conf::player_hitbox.x, conf::player_hitbox.y), health(100), dead(false), hit(false), attack_direction(1) {
+Player::Player(float x, float y) : Entity(x, y, conf::player_hitbox.x, conf::player_hitbox.y), health(100000), dead(false), hit(false), attack_direction(1) {
 }
 
 Player::Player() : Player(0, 0) {}
@@ -44,7 +44,7 @@ void Player::setHealth(float new_health) {
 }
 
 void Player::respawn() {
-  position = {0, 0};
+  position = {0, -conf::player_hitbox.y / 2};
   dead = false;
   health = 100;
 }
@@ -115,7 +115,7 @@ void Player::update(std::vector<Obstacle*>& obstacles, float dt) {
       }
     }
     if (sliding) {
-      force.x = -sign(velocity.x) / dt / dt * 0.75; // zmiana dlugosci slidu
+      force.x = -sign(velocity.x) * 125; // zmiana dlugosci slidu
 
       if (hitbox.x == conf::player_hitbox.x && hitbox.y == conf::player_hitbox.y) {
         hitbox = conf::player_sliding_hitbox;

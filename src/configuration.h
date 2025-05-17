@@ -11,6 +11,9 @@ namespace conf {
     bool const show_FPS = true;
     int const fps_accuracy = 100;
 
+    // Tools
+    bool const edit_mode_enabled = false;
+
     // Graphics
     std::string const backgroundImage = "../../Media/backgrounds/background2.jpg";
     std::string const optionsMenuBackgroundImage = "../../Media/backgrounds/MenuOptionsBack.png";
@@ -29,6 +32,7 @@ namespace conf {
     std::string const sprinterImage = "../../Media/entities/Stalker_stay.png";
     std::string const sprinterImage2 = "../../Media/entities/Stalker_run.png";
     std::string const swordImage = "../../Media/items/sword.png";
+    std::string const cursorImage = "../../Media/cursors/cursor1.png";
 
     // fonts
     sf::Font const arial("../../Media/fonts/arial/arial.ttf");
@@ -36,7 +40,7 @@ namespace conf {
     // Player configuration
     sf::Vector2f const player_hitbox = {50, 100};
     sf::Vector2f const player_sliding_hitbox = {42, 30};
-    float const jump_strength = 900;
+    float const jump_strength = 1100;
     float const player_speed = 200;
 
     //items
@@ -58,7 +62,7 @@ namespace conf {
 
     // Sprinter configuration
     sf::Vector2f const sprinter_hitbox = {75, 150};
-    float const sprinter_damage = 1;
+    float const sprinter_damage = 10;
     float const charge_time = 2;
     float const dash_distance = vision_distance;
 

@@ -5,9 +5,16 @@
 #include "configuration.h"
 #include "Enemy.h"
 #include "ImageDisplay.h"
+#include "LevelHandler.h"
 
-Archer::Archer(float x, float y) : Enemy(x, y, conf::archer_hitbox.x, conf::archer_hitbox.y) {}
+Archer::Archer(float x, float y) : Enemy(x, y, conf::archer_hitbox.x, conf::archer_hitbox.y) {
+  type = "archer";
+}
 Archer::Archer() : Archer(0, 0) {}
+
+void Archer::setArrowTexture(sf::Texture texture) {
+  arrow_texture = texture;
+}
 
 void Archer::update(Player& player, std::vector<Obstacle*>& obstacles, float dt) {
   Enemy::update(player, obstacles, dt);
@@ -24,7 +31,7 @@ void Archer::update(Player& player, std::vector<Obstacle*>& obstacles, float dt)
     arrows[i].update(obstacles, dt);
 
 
-    if (arrows[i].getLifetime() > 1) {
+    if (arrows[i].getLifetime() > 2) {
       arrows.erase(arrows.begin() + i);
       i--;
     } else if (abs(arrows[i].getPosition().x - player.getPosition().x) < player.getHitbox().x / 2 + conf::arrow_hitbox.x / 2 && abs(arrows[i].getPosition().y - player.getPosition().y) < player.getHitbox().y / 2 + conf::arrow_hitbox.y / 2) {
@@ -36,11 +43,12 @@ void Archer::update(Player& player, std::vector<Obstacle*>& obstacles, float dt)
 }
 
 void Archer::shoot(Player& player) {
-  arrows.push_back(*new Arrow(position.x, position.y));
-  arrows.back().setTexture(arrow_texture);
-  arrows.back().setVelocity(sf::Vector2f({player.getPosition().x - position.x, player.getPosition().y - position.y - (conf::player_hitbox.y / 4)}).normalized() * conf::arrow_speed);
-  arrows.back().setRotation(sf::Vector2f({player.getPosition().x - position.x, player.getPosition().y - position.y - (conf::player_hitbox.y / 4)}).angle().asRadians());
-  arrows.back().gravity(false);
+  Arrow newArrow(position.x, position.y);
+  newArrow.setTexture(arrow_texture);
+  newArrow.setVelocity(sf::Vector2f({player.getPosition().x - position.x, player.getPosition().y - position.y - (conf::player_hitbox.y / 4)}).normalized() * conf::arrow_speed);
+  newArrow.setRotation(newArrow.getVelocity().angle().asRadians());
+  newArrow.gravity(false);
+  arrows.push_back(newArrow);
 }
 
 bool Archer::load_textures() {

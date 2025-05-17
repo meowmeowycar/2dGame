@@ -31,11 +31,13 @@ public:
     bool fix_collisions(std::vector<Obstacle*>& obstacles, sf::Vector2f step, float dt);
 
     sf::Vector2f getPosition();
+    sf::Vector2f getVelocity();
     sf::Vector2f getHitbox();
     void setTexture(sf::Texture texture);
     void setVelocity(sf::Vector2f new_velocity);
     void setForce(sf::Vector2f new_force);
     void setRotation(float new_rotation);
+    void setPosition(sf::Vector2f new_position);
 
     void gravity(bool enabled);
     static void toogle_hitboxes();

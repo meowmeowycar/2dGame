@@ -3,8 +3,8 @@
 #include "configuration.h"
 #include "Entity.h"
 
-Obstacle::Obstacle(float x, float y, float width, float height) : position(x, y), size(width, height), type("normal") {}
-Obstacle::Obstacle(float width, float height) : Obstacle(0, 0, width, height) {}
+Obstacle::Obstacle(float x1, float y1, float x2, float y2) : position((x1 + x2) / 2, (y1 + y2) / 2), size(abs(x2 - x1), abs(y2 - y1)), type("normal") {}
+Obstacle::Obstacle(float width, float height) : Obstacle(-width / 2, -height / 2, width / 2, height / 2) {}
 
 sf::Vector2f Obstacle::getPosition() {
   return position;
@@ -23,12 +23,16 @@ bool Obstacle::load_texture() {
     return false;
   }
 
-  obstacle_texture.setRepeated(true);
-
   return true;
 }
 
+void Obstacle::setTexture(sf::Texture texture) {
+  obstacle_texture = texture;
+}
+
 void Obstacle::show(sf::RenderWindow& window) {
+  obstacle_texture.setRepeated(true);
+
   sf::Sprite obstacle_sprite(obstacle_texture);
   obstacle_sprite.setPosition(position);
   obstacle_sprite.setOrigin({size.x / 2, size.y / 2});

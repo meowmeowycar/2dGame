@@ -1,8 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include "events.h"
+
+#include <iostream>
+
 #include "HUD.h"
 #include "Entity.h"
 #include "PauseMenu.h"
+#include "../cmake-build-release/_deps/sfml-src/src/SFML/Window/InputImpl.hpp"
 
 void processEvents(sf::Window& window) {
     while (const std::optional event = window.pollEvent())

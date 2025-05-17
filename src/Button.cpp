@@ -1,6 +1,7 @@
 #include "Button.h"
 #include "configuration.h"
 #include "char_lengths.h"
+#include "../cmake-build-release/_deps/sfml-src/src/SFML/Window/InputImpl.hpp"
 
 Button::Button(float x, float y, float width, float height, std::string text) : position({x, y}), size(width, height), text(text), text_size(35), color(sf::Color::Black), text_color(sf::Color::White), pressed(false), released(false) {}
 
@@ -67,7 +68,7 @@ void Button::updateAndShow(sf::RenderWindow &window) {
 }
 
 void Button::update(sf::RenderWindow &window) {
-  sf::Vector2f mouse_position = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+  sf::Vector2f mouse_position = static_cast<sf::Vector2f>(sf::priv::InputImpl::getMousePosition());
 
   bool mouse_on_X = abs(mouse_position.x - position.x) <= size.x / 2;
   bool mouse_on_Y = abs(mouse_position.y - position.y) <= size.y / 2;

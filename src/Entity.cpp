@@ -21,6 +21,10 @@ sf::Vector2f Entity::getPosition() {
   return position;
 }
 
+sf::Vector2f Entity::getVelocity() {
+  return velocity;
+}
+
 bool Entity::drawing_hitboxes() {
   return draw_hitboxes;
 }
@@ -157,6 +161,10 @@ void Entity::setForce(sf::Vector2f new_force) {
 
 void Entity::setRotation(float new_rotation) {
   rotation = new_rotation;
+}
+
+void Entity::setPosition(sf::Vector2f new_position) {
+  position = new_position;
 }
 
 void Entity::gravity(bool enabled) {
