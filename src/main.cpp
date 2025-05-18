@@ -89,6 +89,7 @@ int main() {
     int pauseMenuResult = PauseMenu::PAUSE_RESUME;
 
     float clicked = false;
+    //bool gameStarted = false;
 
     while (window.isOpen()) {
         processEvents(window);
@@ -150,6 +151,17 @@ int main() {
             window.close();
             return 0;
         } else if (menuResult == MainMenu::MENU_PLAY) {
+
+            /*
+            if (!gameStarted) {
+                if (LevelHandler::loadFromLastCheckpoint()) {
+                    std::cout<<"Load from last checkpoint"<<std::endl;
+                }
+                gameStarted = true;
+            }
+            */
+
+
             // Logic
 
             processEvents(window);
@@ -178,6 +190,7 @@ int main() {
                 player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
             } else if (pauseMenuResult == PauseMenu::PAUSE_BACK) {
                 menuResult = MainMenu::MENU_NONE;
+                //gameStarted = false;
             }
 
             // Display
@@ -210,6 +223,8 @@ int main() {
             PauseMenu::display_pausemenu(window);
 
             LevelHandler::checkpoint_manager.drawMessage(window);
+
+            LevelHandler::shop_keeper.show(window);
 
 
             // CHARACTER LENGTH TEST

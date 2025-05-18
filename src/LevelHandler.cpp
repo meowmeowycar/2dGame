@@ -8,6 +8,8 @@
 #include "Sprinter.h"
 #include "CheckpointManager.h"
 #include "configuration.h"
+#include "ShopKeeper.h"
+
 
 unsigned int LevelHandler::level = 0;
 
@@ -16,6 +18,7 @@ Player* LevelHandler::player = nullptr;
 std::vector<Obstacle*> LevelHandler::obstacles;
 std::vector<Enemy*> LevelHandler::enemies;
 std::vector<Checkpoint*> LevelHandler::l_checkpoints;
+std::vector<ShopKeeper*> LevelHandler::shopkeepers;
 
 sf::Texture LevelHandler::stalker_texture;
 sf::Texture LevelHandler::archer_texture;
@@ -30,7 +33,10 @@ sf::Texture LevelHandler::semi_obstacle_right_texture;
 
 sf::Texture LevelHandler::checkpoint_texture;
 
+sf::Texture LevelHandler::shopkeeper_texture;
+
 CheckpointManager LevelHandler::checkpoint_manager;
+ShopKeeper LevelHandler::shop_keeper;
 std::vector<Obstacle*>& LevelHandler::getObstacles() {
     return obstacles;
 }
@@ -67,6 +73,9 @@ bool LevelHandler::load_textures() {
     if (!Obrazek(conf::checkpointImage, checkpoint_texture)) {
         return false;
     }
+    if (!Obrazek(conf::shopkeeperImage, shopkeeper_texture)) {
+        return false;
+    }
 
     return true;
 }
@@ -76,6 +85,7 @@ void LevelHandler::load_level() {
     obstacles.clear();
     enemies.clear();
     l_checkpoints.clear();
+    shopkeepers.clear();
 
     switch(level) {
         case 0:
@@ -110,6 +120,10 @@ void LevelHandler::load_level() {
     for (const auto& checkpoint : l_checkpoints) {
         (*checkpoint).setTexture(checkpoint_texture);
     }
+
+    for (const auto& shopkeeper : shopkeepers) {
+        (*shopkeeper).setTexture(shopkeeper_texture);
+    }
 }
 
 void LevelHandler::update(Player& player, std::vector<Obstacle*> obstacles, float dt) {
@@ -120,6 +134,10 @@ void LevelHandler::update(Player& player, std::vector<Obstacle*> obstacles, floa
             enemies.erase(enemies.begin() + i);
             i--;
         }
+    }
+
+    for (auto& shopkeeper : shopkeepers) {
+        (*shopkeeper).update(player, obstacles, dt);
     }
 
     checkpoint_manager.update(dt, player);
@@ -137,6 +155,10 @@ void LevelHandler::show(sf::RenderWindow& window) {
     for (const auto& checkpoint : l_checkpoints) {
         (*checkpoint).show(window);
     }
+
+    for (const auto& shopkeeper : shopkeepers) {
+        (*shopkeeper).show(window);
+    }
 }
 
 void LevelHandler::change_level(unsigned int level) {
@@ -151,6 +173,10 @@ void LevelHandler::unload() {
 
     for (auto obstacle : obstacles) {
         delete obstacle;
+    }
+
+    for (auto shopkeeper : shopkeepers) {
+        delete shopkeeper;
     }
 
     resetCheckpoints();

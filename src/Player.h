@@ -3,10 +3,12 @@
 #include "Obstacle.h"
 #include <vector>
 #include "Entity.h"
+#include "MagicStaff.h"
 #include "Sword.h"
 
 class Player : public Entity {
     Sword sword;
+    MagicStaff magic_staff;
 
     float health;
     bool sliding;
@@ -37,4 +39,9 @@ public:
 
     void swordAttack();
     Sword& getSword();
+
+    void staffAttack();
+    MagicStaff& getStaff();
+
+    void acquiredMagicStaff();
 };

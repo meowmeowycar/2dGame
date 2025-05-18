@@ -5,6 +5,7 @@
 #include "functions.h"
 #include <iostream>
 #include <cmath>
+#include "../cmake-build-release/_deps/sfml-src/src/SFML/Window/InputImpl.hpp"
 
 #include "HUD.h"
 
@@ -143,7 +144,18 @@ void Player::update(std::vector<Obstacle*>& obstacles, float dt) {
     sword.startAttack();
   }
 
+  if (isKeyPressed(sf::Keyboard::Key::J)) {
+    magic_staff.startAttack();
+  }
+
+
+
   sword.update(dt, position, attack_direction);
+
+  sf::Vector2f mouse_pos;
+  mouse_pos.x = sf::priv::InputImpl::getMousePosition().x - conf::window_size_f.x / 2 + position.x;
+  mouse_pos.y = sf::priv::InputImpl::getMousePosition().y - (conf::window_size_f.y / 2 + 200) + position.y;
+  magic_staff.update(dt, position, attack_direction, obstacles, mouse_pos);
 
   Entity::update(obstacles, dt);
 }
@@ -163,6 +175,7 @@ void Player::show(sf::RenderWindow& window) {
   window.draw(entity_sprite);
 
   sword.draw(window);
+  magic_staff.draw(window);
 
   if (draw_hitboxes) {
     draw_hitbox(window);
@@ -175,4 +188,16 @@ void Player::swordAttack() {
 
 Sword& Player::getSword() {
   return sword;
+}
+
+void Player::staffAttack() {
+  magic_staff.startAttack();
+}
+
+MagicStaff& Player::getStaff() {
+  return magic_staff;
+}
+
+void Player::acquiredMagicStaff() {
+  magic_staff.setAcquired(true);
 }

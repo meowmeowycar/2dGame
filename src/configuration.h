@@ -34,6 +34,9 @@ namespace conf {
     std::string const swordImage = "../../Media/items/sword.png";
     std::string const cursorImage = "../../Media/cursors/cursor1.png";
     std::string const checkpointImage = "../../Media/enviroment/checkpoint.png";
+    std::string const shopkeeperImage = "../../Media/entities/shopkeeper.png";
+    std::string const magicStaffImage = "../../Media/items/magicStaff.png";
+    std::string const magicProjectileImage = "../../Media/items/Projectile.png";
 
     // fonts
     sf::Font const arial("../../Media/fonts/arial/arial.ttf");
@@ -52,6 +55,9 @@ namespace conf {
 
     //items
     sf::Vector2f const sword_hitbox = {100, 40};
+    sf::Vector2f const magicStaff_hitbox = {30, 100};
+    sf::Vector2f const magicProjectile_hitbox = {50, 50};
+    const float magic_projectile_speed = 1500.0f;
 
     // Enemies configuration
     float const vision_distance = 500;
@@ -72,6 +78,9 @@ namespace conf {
     float const sprinter_damage = 10;
     float const charge_time = 2;
     float const dash_distance = vision_distance;
+
+    //ShopKeeper
+    sf::Vector2f const shopkeeper_hitbox = {75, 75};
 
     // HUD configuration
     bool const show_hud = true;

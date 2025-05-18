@@ -45,6 +45,19 @@ bool CheckpointManager::loadFromLastCheckpoint(Player& player) {
     if (activeCheckpoint) {
         return activeCheckpoint -> loadGameState(player);
     }
+
+    for (auto& checkpoint : checkpoints) {
+        std::string name = "../../saves/checkpoint_" + std::to_string(checkpoint.getId()) + ".save";
+        std::ifstream checkFile(name);
+        if (checkFile.good()) {
+            checkFile.close();
+
+            checkpoint.activate();
+            activeCheckpoint = &checkpoint;
+            return activeCheckpoint->loadGameState(player);
+        }
+    }
+
     return false;
 }
 

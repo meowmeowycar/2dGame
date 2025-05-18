@@ -12,7 +12,7 @@ class Sword : public Entity{
   float scale = 0.8f;
   float damage = 30.0f;
 
-  float cooldownDuration = 2.0f;
+  float cooldownDuration = 0.5f;
   float cooldownTimer = 0.0f;
   bool isOnCooldown = false;
 
