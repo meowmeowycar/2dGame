@@ -17,6 +17,9 @@ void LevelHandler::load_tutorial() {
     enemies.push_back(new Archer(-400, -500));
     enemies.push_back(new Sprinter(-400, -500));
     enemies.push_back(new Stalker(-400, -500));
+
+    addCheckpoint(0,0, 1,  sf::Vector2f(0.0f, 0.0f));
+    l_checkpoints.push_back(new Checkpoint(0, 0, 1,  sf::Vector2f(0.0f, 0.0f)) );
 }
 
 void LevelHandler::load_level_1() {
@@ -34,4 +37,6 @@ void LevelHandler::load_level_1() {
     // Enemies
 
     enemies.push_back(new Archer(1000, -conf::archer_hitbox.y / 2));
+
+
 }

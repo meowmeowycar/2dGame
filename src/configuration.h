@@ -33,6 +33,7 @@ namespace conf {
     std::string const sprinterImage2 = "../../Media/entities/Stalker_run.png";
     std::string const swordImage = "../../Media/items/sword.png";
     std::string const cursorImage = "../../Media/cursors/cursor1.png";
+    std::string const checkpointImage = "../../Media/enviroment/checkpoint.png";
 
     // fonts
     sf::Font const arial("../../Media/fonts/arial/arial.ttf");
@@ -42,6 +43,12 @@ namespace conf {
     sf::Vector2f const player_sliding_hitbox = {42, 30};
     float const jump_strength = 1100;
     float const player_speed = 200;
+
+    //Terrain
+    sf::Vector2f const checkpoint_hitbox = {200, 200};
+    bool const show_message = true;
+    float const message_display_time = 3.0f;
+    std::string const save_directory = "../../saves/";
 
     //items
     sf::Vector2f const sword_hitbox = {100, 40};
