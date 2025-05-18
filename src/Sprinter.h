@@ -14,15 +14,8 @@ class Sprinter : public Enemy {
 
   sf::Clock charge_time;
 
-  enum  class State{
-    IDLE,
-    RUNNING
-
-  };
-
-  State current_state;
-
 public:
+  Sprinter(float x, float y, short vision_direction);
   Sprinter(float x, float y);
   Sprinter();
 

@@ -72,6 +72,11 @@ void Player::update(std::vector<Obstacle*>& obstacles, float dt) {
     attack_direction = sign(velocity.x);
 
   if (!dead) {
+    if (isKeyPressed(sf::Keyboard::Key::S)) {
+      descend = true;
+    } else
+      descend = false;
+
     if (isKeyPressed(sf::Keyboard::Key::Space)) {
       if (hit_reset) {
         hit_reset = false;
@@ -140,7 +145,7 @@ void Player::update(std::vector<Obstacle*>& obstacles, float dt) {
     }
   }
 
-  if (isKeyPressed(sf::Keyboard::Key::H)) {
+  if (isKeyPressed(sf::Keyboard::Key::Space)) {
     sword.startAttack();
   }
 
@@ -161,17 +166,10 @@ void Player::update(std::vector<Obstacle*>& obstacles, float dt) {
 }
 void Player::show(sf::RenderWindow& window) {
   sf::Sprite entity_sprite(entity_texture);
-
   entity_sprite.setPosition(position);
-
-  entity_sprite.setOrigin({(float)entity_texture.getSize().x / 2, (float)entity_texture.getSize().y / 2});
-
-  float scale_x = hitbox.x / entity_texture.getSize().x;
-  float scale_y = hitbox.y / entity_texture.getSize().y;
-  entity_sprite.setScale({scale_x * -attack_direction, scale_y});
-
+  entity_sprite.setOrigin({(float) entity_texture.getSize().x / 2, (float) entity_texture.getSize().y / 2});
+  entity_sprite.setScale({attack_direction * hitbox.x / entity_texture.getSize().x, hitbox.y / entity_texture.getSize().y});
   entity_sprite.setRotation(sf::radians(rotation));
-
   window.draw(entity_sprite);
 
   sword.draw(window);

@@ -5,6 +5,8 @@
 
 class Entity {
 protected:
+    std::string type;
+
     static bool draw_hitboxes;
 
     sf::Texture entity_texture;
@@ -15,6 +17,10 @@ protected:
     sf::Vector2f position;
     sf::Vector2f force;
     sf::Vector2f velocity;
+
+    bool descend;
+
+    bool collided;
 
     sf::Color hitbox_color;
 
