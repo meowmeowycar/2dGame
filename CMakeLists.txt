@@ -60,6 +60,12 @@ add_executable(main
         src/Checkpoint.h
         src/CheckpointManager.cpp
         src/CheckpointManager.h
+        src/ShopKeeper.cpp
+        src/ShopKeeper.h
+        src/MagicStaff.cpp
+        src/MagicStaff.h
+        src/MagicProjectile.cpp
+        src/MagicProjectile.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)

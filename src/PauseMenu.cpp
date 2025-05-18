@@ -54,6 +54,7 @@ int PauseMenu::handlePauseMenuSelection() {
 
         if (restartButton.isReleased()) {
             show_pausemenu = false;
+            LevelHandler::resetCheckpoints();
             LevelHandler::load_level();
             return PAUSE_RESUME;
         }

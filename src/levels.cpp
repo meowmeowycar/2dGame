@@ -20,6 +20,8 @@ void LevelHandler::load_tutorial() {
 
     addCheckpoint(0,0, 1,  sf::Vector2f(0.0f, 0.0f));
     l_checkpoints.push_back(new Checkpoint(0, 0, 1,  sf::Vector2f(0.0f, 0.0f)) );
+
+    shopkeepers.push_back(new ShopKeeper(100, 0));
 }
 
 void LevelHandler::load_level_1() {

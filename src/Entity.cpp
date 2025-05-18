@@ -33,7 +33,7 @@ void Entity::show(sf::RenderWindow& window) {
   sf::Sprite entity_sprite(entity_texture);
   entity_sprite.setPosition(position);
   entity_sprite.setOrigin({(float) entity_texture.getSize().x / 2, (float) entity_texture.getSize().y / 2});
-  entity_sprite.setScale({hitbox.x / conf::player_hitbox.x, hitbox.y / conf::player_hitbox.y});
+  entity_sprite.setScale({hitbox.x / entity_texture.getSize().x, hitbox.y / entity_texture.getSize().y});
   entity_sprite.setRotation(sf::radians(rotation));
   window.draw(entity_sprite);
 

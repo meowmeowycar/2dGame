@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Obstacle.h"
+#include "ShopKeeper.h"
 #include "SFML/Graphics/RenderWindow.hpp"
 
 class LevelHandler {
@@ -23,12 +24,16 @@ class LevelHandler {
 
     static sf::Texture checkpoint_texture;
 
+    static sf::Texture shopkeeper_texture;
+
     static std::vector<Obstacle*> obstacles;
     static std::vector<Enemy*> enemies;
     static std::vector<Checkpoint*> l_checkpoints;
+    static std::vector<ShopKeeper*> shopkeepers;
 
 
 public:
+    static ShopKeeper shop_keeper;
     static CheckpointManager checkpoint_manager;
     static std::vector<Obstacle*>& getObstacles();
 
