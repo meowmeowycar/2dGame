@@ -19,6 +19,7 @@
 #include "MainMenu.h"
 #include "OptionsMenu.h"
 #include "PauseMenu.h"
+#include "CheckpointManager.h"
 
 int main() {
     auto window = sf::RenderWindow(sf::VideoMode(conf::window_size), "2dGame", sf::State::Fullscreen);
@@ -160,6 +161,16 @@ int main() {
 
                 LevelHandler::update(player, LevelHandler::getObstacles(), actual_dt);
 
+                if (player.isDead() || isKeyPressed(sf::Keyboard::Key::R)) {
+                    if (LevelHandler::loadFromLastCheckpoint()) {
+                        std::cout<<"Load from last checkpoint"<<std::endl;
+                    }
+                    else {
+                        std::cout<< "brak zapisanego checkpointu" << std::endl;
+                        player.respawn();
+                    }
+                }
+
                 std::stringstream ss;
                 ss<<sf::priv::InputImpl::getMousePosition().x - 10;
                 mouse_pos_x.setString(ss.str().c_str());
@@ -197,6 +208,8 @@ int main() {
 
             HUD::display_hud(window, actual_dt, player);
             PauseMenu::display_pausemenu(window);
+
+            LevelHandler::checkpoint_manager.drawMessage(window);
 
 
             // CHARACTER LENGTH TEST

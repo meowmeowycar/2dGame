@@ -56,6 +56,10 @@ add_executable(main
         src/levels.cpp
         src/Sword.cpp
         src/Sword.h
+        src/Checkpoint.cpp
+        src/Checkpoint.h
+        src/CheckpointManager.cpp
+        src/CheckpointManager.h
 )
 
 target_compile_features(main PRIVATE cxx_std_17)
