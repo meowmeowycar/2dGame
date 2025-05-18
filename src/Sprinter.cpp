@@ -4,9 +4,13 @@
 #include "ImageDisplay.h"
 
 
-Sprinter::Sprinter(float x, float y) : Enemy(x, y, conf::sprinter_hitbox.x, conf::sprinter_hitbox.y), charging(false), dashing(false), dash_starting_position(0), attacked_player(false) {
+Sprinter::Sprinter(float x, float y, short vision_direction) : Enemy(x, y, conf::sprinter_hitbox.x, conf::sprinter_hitbox.y, vision_direction), charging(false), dashing(false), dash_starting_position(0), attacked_player(false) {
   type = "sprinter";
+  vision_distance = conf::sprinter_vision_distance;
+  back_vision_distance = conf::sprinter_back_vision_distance;
 }
+
+Sprinter::Sprinter(float x, float y) : Sprinter(x, y, -1) {}
 
 Sprinter::Sprinter() : Sprinter(0, 0) {}
 
@@ -26,24 +30,11 @@ bool Sprinter::load_textures() {
 
 void Sprinter::update_state() {
 
-  State new_state;
-
   if (charging || dashing) {
-    new_state = State::RUNNING;
+      entity_texture = run_texture;
   }
   else {
-    new_state = State::IDLE;
-  }
-
-  if (new_state != current_state) {
-    current_state = new_state;
-
-    if (current_state == State::IDLE) {
       entity_texture = stay_texture;
-    }
-    else {
-      entity_texture = run_texture;
-    }
   }
 }
 
@@ -94,21 +85,7 @@ void Sprinter::update(Player& player, std::vector<Obstacle*>& obstacles, float d
   update_state();
 }
 void Sprinter::show(sf::RenderWindow& window) {
-  sf::Sprite entity_sprite(entity_texture);
-
-  entity_sprite.setPosition(position);
-
-  entity_sprite.setOrigin({(float)entity_texture.getSize().x / 2, (float)entity_texture.getSize().y / 2});
-
-  float scale_x = hitbox.x / entity_texture.getSize().x;
-  float scale_y = hitbox.y / entity_texture.getSize().y;
-
-
-  entity_sprite.setScale({scale_x * vision_direction, scale_y});
-
-  entity_sprite.setRotation(sf::radians(rotation));
-
-  window.draw(entity_sprite);
+  Enemy::show(window);
 
   if (draw_hitboxes) {
     draw_hitbox(window);

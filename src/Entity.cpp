@@ -9,7 +9,7 @@
 
 bool Entity::draw_hitboxes = conf::draw_hitboxes;
 
-Entity::Entity(float x, float y, float width, float height) : position(x, y), velocity({0, 0}), force({0, 0}), hitbox(width, height), hitbox_color(sf::Color::Red), gravity_enabled(true), rotation(0) {}
+Entity::Entity(float x, float y, float width, float height) : position(x, y), velocity({0, 0}), force({0, 0}), hitbox(width, height), hitbox_color(sf::Color::Red), gravity_enabled(true), rotation(0), descend(false), collided(false), type("entity") {}
 
 Entity::Entity(float width, float height) : Entity(0, 0, width, height) {}
 
@@ -70,6 +70,8 @@ void Entity::update(std::vector<Obstacle*>& obstacles, float dt) {
     step.y = sign(velocity.y);
   }
 
+  collided = false;
+
   for (int j = 0; j <= steps; j++) {
     if((steps - j) < 1) {
       step.x *= steps - j;
@@ -78,10 +80,11 @@ void Entity::update(std::vector<Obstacle*>& obstacles, float dt) {
 
     bool collided_x = false;
     bool collided_y = false;
+
     for (int i = 0; i < obstacles.size(); i++) {
       sf::Vector2f distance = {(*obstacles[i]).getPosition().x - position.x, (*obstacles[i]).getPosition().y - position.y};
 
-      if ((*obstacles[i]).getType() == "semi") {
+      if ((*obstacles[i]).getType() == "semi" && !descend && type != "arrow") {
         if (sign(step.y) == 1 && !((abs(distance.x) - hitbox.x / 2 - (*obstacles[i]).getSize().x / 2) < 0 && (abs(distance.y) - hitbox.y / 2 - (*obstacles[i]).getSize().y / 2) < 0)) {
           if ((abs(distance.x) - hitbox.x / 2 - (*obstacles[i]).getSize().x / 2) < 0 && (abs(distance.y - step.y) - hitbox.y / 2 - (*obstacles[i]).getSize().y / 2) < 0) {
             collided_y = true;
@@ -116,8 +119,14 @@ void Entity::update(std::vector<Obstacle*>& obstacles, float dt) {
 
     sf::Vector2f step_copy = step;
 
-    if (collided_x) step_copy.x = 0;
-    if (collided_y) step_copy.y = 0;
+    if (collided_x) {
+      collided = true;
+      step_copy.x = 0;
+    }
+    if (collided_y) {
+      collided = true;
+      step_copy.y = 0;
+    }
 
     move(step_copy);
   }

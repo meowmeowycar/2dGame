@@ -6,6 +6,7 @@
 #include "events.h"
 #include "Player.h"
 #include "configuration.h"
+#include "Editor.h"
 #include "ImageDisplay.h"
 #include "Obstacle.h"
 #include "HUD.h"
@@ -61,13 +62,12 @@ int main() {
     }
 
     LevelHandler::reference_player(player);
-    //LevelHandler::change_level(1);
-    LevelHandler::load_level();
+    LevelHandler::change_level(1);
 
 
     sf::Text test_text(conf::arial);
     test_text.setCharacterSize(100);
-    test_text.setString("          WWW");
+    test_text.setString("eeeeeeeeeeW");
 
     sf::Text mouse_pos_x(conf::arial);
     mouse_pos_x.setCharacterSize(100);
@@ -88,41 +88,10 @@ int main() {
     int menuResult = MainMenu::MENU_NONE;
     int pauseMenuResult = PauseMenu::PAUSE_RESUME;
 
-    float clicked = false;
-    //bool gameStarted = false;
-
     while (window.isOpen()) {
         processEvents(window);
 
-        if (conf::edit_mode_enabled) {
-
-            float x1, y1;
-
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-            {
-                x1 = sf::priv::InputImpl::getMousePosition().x - conf::window_size_f.x / 2 + player.getPosition().x;
-                y1 = sf::priv::InputImpl::getMousePosition().y - (conf::window_size_f.y / 2 + 200) + player.getPosition().y;
-            }
-
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
-            {
-                float x2, y2;
-                x2 = sf::priv::InputImpl::getMousePosition().x - conf::window_size_f.x / 2 + player.getPosition().x;
-                y2 = sf::priv::InputImpl::getMousePosition().y - (conf::window_size_f.y / 2 + 200) + player.getPosition().y;
-
-                x1 = round(x1 / 25) * 25;
-                y1 = round(y1 / 25) * 25;
-                x2 = round(x2 / 25) * 25;
-                y2 = round(y2 / 25) * 25;
-
-                if (!clicked) {
-                    std::cout<<"    obstacles.push_back(new Obstacle("<<x1<<", "<<y1<<", "<<x2<<", "<<y2<<"));"<<std::endl;
-                    LevelHandler::addObstacle(x1, y1, x2, y2);
-                }
-                clicked = true;
-            } else
-                clicked = false;
-        }
+        Editor::update(player);
 
         sf::Vector2f mouse_position = static_cast<sf::Vector2f>(sf::priv::InputImpl::getMousePosition());
         cursor.setPosition(sf::Vector2f(mouse_position.x - 60 * cursor_scale, mouse_position.y - 1));
@@ -149,26 +118,14 @@ int main() {
             window.display();
         } else if (menuResult == MainMenu::MENU_EXIT) {
             window.close();
-            return 0;
         } else if (menuResult == MainMenu::MENU_PLAY) {
-
-            /*
-            if (!gameStarted) {
-                if (LevelHandler::loadFromLastCheckpoint()) {
-                    std::cout<<"Load from last checkpoint"<<std::endl;
-                }
-                gameStarted = true;
-            }
-            */
-
-
             // Logic
 
             processEvents(window);
 
             pauseMenuResult = PauseMenu::handlePauseMenuSelection();
 
-            if (pauseMenuResult == PauseMenu::PAUSE_RESUME) {
+            if (pauseMenuResult == PauseMenu::PAUSE_RESUME && LevelHandler::getEnemiesNumber() > 0) {
                 player.update(LevelHandler::getObstacles(), actual_dt);
 
                 LevelHandler::update(player, LevelHandler::getObstacles(), actual_dt);
@@ -190,7 +147,6 @@ int main() {
                 player_view.setCenter({player.getPosition().x, player.getPosition().y - 200});
             } else if (pauseMenuResult == PauseMenu::PAUSE_BACK) {
                 menuResult = MainMenu::MENU_NONE;
-                //gameStarted = false;
             }
 
             // Display
@@ -209,9 +165,9 @@ int main() {
 
             // Player view ----------------------
 
-            player.show(window);
-
             LevelHandler::show(window);
+
+            player.show(window);
 
             //-----------------------------------
 
@@ -241,6 +197,7 @@ int main() {
         time = clock.restart();
         actual_dt = time.asSeconds();
     }
-
+    if (conf::edit_mode_enabled)
+        Editor::print_scripts();
     LevelHandler::unload();
 }

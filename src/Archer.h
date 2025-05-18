@@ -4,6 +4,7 @@
 #include <vector>
 
 class Archer : public Enemy {
+protected:
   sf::Clock shooting_timer;
 
   sf::Texture arrow_texture;
@@ -11,6 +12,7 @@ class Archer : public Enemy {
 
   float s;
 public:
+  Archer(float x, float y, short vision_direction);
   Archer(float x, float y);
   Archer();
 

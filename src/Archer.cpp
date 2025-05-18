@@ -7,9 +7,14 @@
 #include "ImageDisplay.h"
 #include "LevelHandler.h"
 
-Archer::Archer(float x, float y) : Enemy(x, y, conf::archer_hitbox.x, conf::archer_hitbox.y) {
+Archer::Archer(float x, float y, short vision_direction) : Enemy(x, y, conf::archer_hitbox.x, conf::archer_hitbox.y, vision_direction) {
   type = "archer";
+  vision_distance = conf::archer_vision_distance;
+  back_vision_distance = conf::archer_back_vision_distance;
 }
+
+Archer::Archer(float x, float y) : Archer(x, y, -1) {}
+
 Archer::Archer() : Archer(0, 0) {}
 
 void Archer::setArrowTexture(sf::Texture texture) {
@@ -64,25 +69,7 @@ bool Archer::load_textures() {
 }
 
 void Archer::show(sf::RenderWindow& window) {
-  sf::Sprite entity_sprite(entity_texture);
-
-  entity_sprite.setPosition(position);
-
-  entity_sprite.setOrigin({(float)entity_texture.getSize().x / 2, (float)entity_texture.getSize().y / 2});
-
-  float scale_x = hitbox.x / entity_texture.getSize().x;
-  float scale_y = hitbox.y / entity_texture.getSize().y;
-
-
-  entity_sprite.setScale({scale_x * vision_direction, scale_y});
-
-  entity_sprite.setRotation(sf::radians(rotation));
-
-  window.draw(entity_sprite);
-
-  if (draw_hitboxes) {
-    draw_hitbox(window);
-  }
+  Enemy::show(window);
 
   for (int i = 0; i < arrows.size(); i++) {
     arrows[i].show(window);

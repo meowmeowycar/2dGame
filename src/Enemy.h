@@ -4,18 +4,20 @@
 
 class Enemy : public Entity {
 protected:
-    std::string type;
-
     float max_health;
     float health;
 
     bool see_player;
     short vision_direction;
 
+    float vision_distance;
+    float back_vision_distance;
+
     sf::Clock turn_delay;
     sf::Clock hit_effect_delay;
 
 public:
+    Enemy(float x, float y, float width, float height, short vision_direction);
     Enemy(float x, float y, float width, float height);
     Enemy(float width, float height);
 

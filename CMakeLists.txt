@@ -56,6 +56,10 @@ add_executable(main
         src/levels.cpp
         src/Sword.cpp
         src/Sword.h
+        src/Editor.cpp
+        src/Editor.h
+        src/Boss.cpp
+        src/Boss.h
         src/Checkpoint.cpp
         src/Checkpoint.h
         src/CheckpointManager.cpp

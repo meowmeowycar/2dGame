@@ -6,6 +6,7 @@ class Stalker : public Enemy {
 
     sf::Clock attack_timer;
 public:
+    Stalker(float x, float y, short vision_direction);
     Stalker(float x, float y);
     Stalker();
 
