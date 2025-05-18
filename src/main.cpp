@@ -165,9 +165,9 @@ int main() {
 
             // Player view ----------------------
 
-            player.show(window);
-
             LevelHandler::show(window);
+
+            player.show(window);
 
             //-----------------------------------
 

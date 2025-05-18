@@ -68,6 +68,27 @@ void Enemy::update(Player& player, std::vector<Obstacle*>& obstacles, float dt) 
       }
     }
   }
+
+  MagicStaff& staff = player.getStaff();
+
+  if (staff.isAcquired()) {
+    for (int i = 0; i < staff.getProjectiles().size(); i++) {
+      MagicProjectile projectile = staff.getProjectiles()[i];
+
+      sf::Vector2f projectile_pos = projectile.getPosition();
+
+      float dist_x = abs(projectile_pos.x - position.x);
+      float dist_y = abs(projectile_pos.y - position.y);
+
+      float max_dist_x = (projectile.getHitbox().x + hitbox.x) / 2.0f;
+      float max_dist_y = (projectile.getHitbox().x + hitbox.y) / 2.0f;
+
+      if (dist_x <= max_dist_x && dist_y <= max_dist_y) {
+        reduce_health(staff.getDamage());
+        staff.getProjectiles().erase(staff.getProjectiles().begin() + i);
+      }
+    }
+  }
 }
 
 void Enemy::check_vision(Player& player, std::vector<Obstacle*>& obstacles) {

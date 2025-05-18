@@ -149,7 +149,7 @@ void Player::update(std::vector<Obstacle*>& obstacles, float dt) {
     sword.startAttack();
   }
 
-  if (isKeyPressed(sf::Keyboard::Key::J)) {
+  if (isKeyPressed(sf::Keyboard::Key::C)) {
     magic_staff.startAttack();
   }
 

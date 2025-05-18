@@ -102,7 +102,7 @@ namespace conf {
 
     // HUD configuration
     bool const show_hud = true;
-    bool const draw_hitboxes = true;
+    bool const draw_hitboxes = false;
     sf::Vector2f const healthbar_position = {30, 30};
     float const boss_healthbar_scale = 1;
     sf::Vector2f const boss_healthbar_position = {window_size_f.x / 2, 100 * boss_healthbar_scale};

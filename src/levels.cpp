@@ -127,11 +127,14 @@ void LevelHandler::load_level_1() {
 
     obstacles.push_back(new Obstacle(3375, -950, 3950, -3000));
 
+    obstacles.push_back(new Semi_obstacle(725, -2275, 425, -2225));
+
 
 
     // Enemies
 
     enemies.push_back(new Archer(1000, -conf::archer_hitbox.y / 2));
+
     enemies.push_back(new Sprinter(1975, -350));
 
     enemies.push_back(new Stalker(2550, -100));
@@ -167,6 +170,17 @@ void LevelHandler::load_level_1() {
     enemies.push_back(new Archer(-900, -2700, 1));
 
     enemies.push_back(new Archer(-1550, -2700));
+
+    // Checkpoints
+
+    addCheckpoint(0,-conf::checkpoint_hitbox.y / 2, 2,  sf::Vector2f(0.0f, -conf::checkpoint_hitbox.y / 2));
+    l_checkpoints.push_back(new Checkpoint(0, -conf::checkpoint_hitbox.y / 2, 2,  sf::Vector2f(0.0f, -conf::checkpoint_hitbox.y / 2)) );
+
+    addCheckpoint(2625,-1000 - conf::checkpoint_hitbox.y / 2, 3,  sf::Vector2f(2625, -1000 - conf::checkpoint_hitbox.y / 2));
+    l_checkpoints.push_back(new Checkpoint(2625, -1000 - conf::checkpoint_hitbox.y / 2, 3,  sf::Vector2f(2625, -1000 - conf::checkpoint_hitbox.y / 2)) );
+
+    addCheckpoint(575,-2275 - conf::checkpoint_hitbox.y / 2, 4,  sf::Vector2f(575, -2275 - conf::checkpoint_hitbox.y / 2));
+    l_checkpoints.push_back(new Checkpoint(575, -2275 - conf::checkpoint_hitbox.y / 2, 4,  sf::Vector2f(575, -2275 - conf::checkpoint_hitbox.y / 2)) );
 }
 
 void LevelHandler::load_level_2() {
@@ -218,4 +232,15 @@ void LevelHandler::load_level_2() {
     // Enemies
 
     enemies.push_back(new Boss(1500, -conf::boss_hitbox.y / 2));
+
+
+    // NPCs
+
+    shopkeepers.push_back(new ShopKeeper(-450, -conf::shopkeeper_hitbox.y / 2));
+
+
+    // Checkpoints
+
+    addCheckpoint(125, -conf::checkpoint_hitbox.y / 2, 5,  sf::Vector2f(125, -conf::checkpoint_hitbox.y / 2));
+    l_checkpoints.push_back(new Checkpoint(125, -conf::checkpoint_hitbox.y / 2, 5,  sf::Vector2f(125, -conf::checkpoint_hitbox.y / 2)) );
 }
